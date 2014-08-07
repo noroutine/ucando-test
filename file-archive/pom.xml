@@ -124,6 +124,6 @@
         <module>file-archive-webapp</module>
         <module>file-archive-service</module>
         <module>file-archive-commons</module>
-        <module>file-archive-client</module>
+        <module>file-archive-jaxrs</module>
     </modules>
 </project>

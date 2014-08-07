@@ -82,4 +82,8 @@
         <property name="maxUploadSize" value="100000"/>
     </bean>
 
+    <bean class="me.noroutine.ucando.FileArchiveJAXRSRepository">
+        <property name="baseUrl" value="http://localhost:8080/file-archive-service/document" />
+    </bean>
+
 </beans>

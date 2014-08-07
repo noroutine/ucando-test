@@ -1,6 +1,8 @@
 package me.noroutine.ucando;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.UUID;
 import java.util.UnknownFormatConversionException;
 
 /**
@@ -9,6 +11,8 @@ import java.util.UnknownFormatConversionException;
 
 public class Document {
 
+    private UUID uuid;
+
     private String fileName;
 
     private String uploadedBy;
@@ -16,6 +20,16 @@ public class Document {
     private Date documentDate;
 
     private Date uploadTime;
+
+    private byte[] content;
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public String getFileName() {
         return fileName;
@@ -47,5 +61,13 @@ public class Document {
 
     public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 }

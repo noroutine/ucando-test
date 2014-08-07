@@ -9,6 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <description>File Archive REST Service</description>
 
     <artifactId>file-archive-service</artifactId>
     <packaging>war</packaging>

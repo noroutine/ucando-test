@@ -29,7 +29,7 @@ This is the dynamic remake of http://getbootstrap.com/components/#navbar
     <%-- Collect the nav links, forms, and other content for toggling --%>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-            <c:forEach var="item" items="home,about">
+            <c:forEach var="item" items="home,documents,about">
                 <spring:message code="navbar.${item}.title" var="itemTitle"/>
                 <c:choose>
                     <c:when test="${item eq selectedView}">
@@ -41,7 +41,12 @@ This is the dynamic remake of http://getbootstrap.com/components/#navbar
                 </c:choose>
             </c:forEach>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
+            <security:authorize access="isAuthenticated()">
+                <li><a href="<spring:url value="/logout" />"><spring:message code="navbar.logout.title"/></a></li>
+            </security:authorize>
+
             <c:forEach var="item" items="contact">
                 <spring:message var="itemTitle" code="navbar.${item}.title"/>
                 <c:choose>

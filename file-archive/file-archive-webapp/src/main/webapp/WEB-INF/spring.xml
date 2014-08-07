@@ -27,11 +27,6 @@
         </property>
     </bean>
 
-    <bean id="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="validationMessageSource" ref="applicationMessageSource" />
-    </bean>
-
     <!-- Custom property editors -->
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
          <property name="customEditors">

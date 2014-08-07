@@ -55,12 +55,9 @@
     <properties>
         <main.basedir>${project.basedir}/../</main.basedir>
 
-        <tomcat.version>7.0.37</tomcat.version>
-
         <slf4j.version>1.7.2</slf4j.version>
         <logback.version>1.0.9</logback.version>
 
-        <jstl.version>1.2</jstl.version>
         <tiles.version>3.0.1</tiles.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <spring-security.version>3.2.0.M2</spring-security.version>
@@ -71,7 +68,7 @@
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
 
         <eclipselink.version>2.4.1</eclipselink.version>
-        <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
+        <!--<hibernate-validator.version>4.3.1.Final</hibernate-validator.version>-->
 
         <junit.version>4.11</junit.version>
         <dbunit.version>2.4.9</dbunit.version>
@@ -89,12 +86,25 @@
         <groovy.version>2.0.5</groovy.version>
         <guava.version>13.0.1</guava.version>
         <thymeleaf.version>2.0.14</thymeleaf.version>
-        <mail.version>1.4.5</mail.version>
 
         <dust4j.version>0.5.2</dust4j.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.servlet.jsp.jstl</artifactId>
+            <version>1.2.3</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- JUnit 4 -->
         <dependency>
@@ -447,38 +457,6 @@
             </exclusions>
         </dependency>
 
-        <!-- EclipseLink JPA provider for ORM -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>${eclipselink.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>2.0.4.v201112161009</version>
-        </dependency>
-
-        <!-- Hibernate Validator for extra JSR303 annotations -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-        </dependency>
-
-        <!-- JSTL 1.2 support for Tomcat. See http://www.mularien.com/blog/2008/04/24/how-to-reference-and-use-jstl-in-your-web-application/ -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
-
-        <!-- Java Mail -->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>${mail.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>me.noroutine</groupId>
@@ -529,35 +507,16 @@
             <version>${joda.time.version}</version>
         </dependency>
 
-        <!-- servlet api provided scope for IDE only-->
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-el-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jsp-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>me.noroutine.ucando</groupId>
-            <artifactId>file-archive-client</artifactId>
+            <artifactId>file-archive-jaxrs</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.parent.artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -591,14 +550,6 @@
                 <version>2.5</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.t7mp</groupId>
-                <artifactId>maven-t7-plugin</artifactId>
-                <version>0.9.13</version>
-                <configuration>
-                    <tomcatVersion>${tomcat.version}</tomcatVersion>
                 </configuration>
             </plugin>
             <plugin>
@@ -705,6 +656,47 @@
 
                     </aggregations>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.8</version>
+                <configuration>
+                    <container>
+                        <containerId>glassfish4x</containerId>
+                        <type>remote</type>
+                    </container>
+                    <configuration>
+                        <type>runtime</type>
+                        <properties>
+                            <cargo.hostname>localhost</cargo.hostname>
+                            <cargo.remote.username>admin</cargo.remote.username>
+                            <cargo.remote.password>admin</cargo.remote.password>
+                            <cargo.remote.port>4848</cargo.remote.port>
+                            <cargo.runtime.args>--force</cargo.runtime.args>
+                            <!--<cargo.glassfish.domain.name>/file-archive-webapp</cargo.glassfish.domain.name>-->
+                        </properties>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <type>war</type>
+                            <!--<properties>-->
+                            <!--<context>/f</context>-->
+                            <!--</properties>-->
+                        </deployable>
+                    </deployables>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.glassfish.main.deployment</groupId>
+                        <artifactId>deployment-client</artifactId>
+                        <version>4.0</version>
+                    </dependency>
+                </dependencies>
+
             </plugin>
         </plugins>
     </build>
