@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.noroutine.ucando</groupId>
     <artifactId>file-archive</artifactId>
@@ -28,8 +29,8 @@
                 <version>2.5.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -96,7 +97,7 @@
             <id>jboss</id>
             <name>JBoss Repository</name>
             <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-        </repository>        
+        </repository>
         <repository>
             <id>EclipseLink Repo</id>
             <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
@@ -119,9 +120,10 @@
         </repository>
     </repositories>
 
-  <modules>
-    <module>file-archive-webapp</module>
-    <module>file-archive-service</module>
-    <module>file-archive-commons</module>
-  </modules>
+    <modules>
+        <module>file-archive-webapp</module>
+        <module>file-archive-service</module>
+        <module>file-archive-commons</module>
+        <module>file-archive-client</module>
+    </modules>
 </project>

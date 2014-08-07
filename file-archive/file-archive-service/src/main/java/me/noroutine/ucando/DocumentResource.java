@@ -7,10 +7,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Root resource (exposed at "myresource" path)
+ * Root resource (exposed at "document" path)
  */
-@Path("myresource")
-public class MyResource {
+@Path("document")
+public class DocumentResource {
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent

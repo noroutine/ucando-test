@@ -20,17 +20,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -62,7 +51,7 @@
                             <artifactId>${project.artifactId}</artifactId>
                             <type>war</type>
                             <!--<properties>-->
-                                <!--<context>/f</context>-->
+                            <!--<context>/f</context>-->
                             <!--</properties>-->
                         </deployable>
                     </deployables>
@@ -95,9 +84,9 @@
     <dependencies>
 
         <!--<dependency>-->
-            <!--<groupId>org.codehaus.cargo</groupId>-->
-            <!--<artifactId>cargo-maven2-plugin</artifactId>-->
-            <!--<version>1.4.8</version>-->
+        <!--<groupId>org.codehaus.cargo</groupId>-->
+        <!--<artifactId>cargo-maven2-plugin</artifactId>-->
+        <!--<version>1.4.8</version>-->
         <!--</dependency>-->
 
 
@@ -114,6 +103,11 @@
         </dependency>
         -->
 
+        <dependency>
+            <groupId>me.noroutine.ucando</groupId>
+            <artifactId>file-archive-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
     <properties>

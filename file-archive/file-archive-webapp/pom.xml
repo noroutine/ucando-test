@@ -548,6 +548,12 @@
             <version>${tomcat.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>me.noroutine.ucando</groupId>
+            <artifactId>file-archive-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
