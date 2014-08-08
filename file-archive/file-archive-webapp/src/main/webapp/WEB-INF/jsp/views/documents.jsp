@@ -9,11 +9,26 @@
 <%@ taglib prefix="util" tagdir="/WEB-INF/tags/util" %>
 <%@ taglib prefix="tb" uri="/WEB-INF/taglib/taglib.tld" %>
 
-<util:js value="/resources/js/pages/documents.js" />
 
+<section>
 <h1>Files</h1>
 <ol>
     <c:forEach items="${documents}" var="document">
         <li>${document.fileName}</li>
     </c:forEach>
 </ol>
+</section>
+<section>
+<h1>Upload</h1>
+
+<fieldset>
+    <legend></legend>
+    <input id="upload_file" type="file" style="display: none" />
+    <a id="upload_btn" type="button" class="button" ><i class="fa fa-cloud-upload"></i> <spring:message code="button.upload" /> </a> <span id="upload_progress"></span>
+</fieldset>
+
+</section>
+
+<util:js value="/resources/js/pages/documents.js" />
+
+

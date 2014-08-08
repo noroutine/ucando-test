@@ -26,7 +26,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     public void upload(Document document) {
         client.target(baseUrl)
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.xml(document));
+                .post(Entity.json(document));
     }
 
     @Override
