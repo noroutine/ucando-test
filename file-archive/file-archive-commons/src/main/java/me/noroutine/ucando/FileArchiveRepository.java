@@ -1,15 +1,17 @@
 package me.noroutine.ucando;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by oleksii on 07/08/14.
  */
 public interface FileArchiveRepository {
 
-    void upload(DocumentMetadata documentMetadata);
+    boolean createDocument(DocumentMetadata documentMetadata);
+
+    boolean createDocument(DocumentMetadata documentMetadata, InputStream content);
 
     List<DocumentMetadata> searchByUploader(String uploader);
 
@@ -19,7 +21,9 @@ public interface FileArchiveRepository {
 
     List<DocumentMetadata> findAll();
 
-    void delete(String uuid);
+    boolean delete(String uuid);
 
     byte[] getContent(String uuid);
+
+    boolean setContent(String uuid, InputStream input);
 }

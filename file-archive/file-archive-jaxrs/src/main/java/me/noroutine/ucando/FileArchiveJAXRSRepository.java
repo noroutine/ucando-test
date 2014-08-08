@@ -1,12 +1,14 @@
 package me.noroutine.ucando;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +27,10 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     }
 
     @Override
-    public void upload(DocumentMetadata documentMetadata) {
-        client.target(baseUrl)
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(documentMetadata));
+    public boolean createDocument(DocumentMetadata documentMetadata) {
+        return client.target(baseUrl)
+                .request()
+                .post(Entity.json(documentMetadata), Boolean.class);
     }
 
     @Override
@@ -61,11 +63,27 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     }
 
     @Override
-    public void delete(String uuid) {
-        client.target(baseUrl)
+    public boolean delete(String uuid) {
+        return client.target(baseUrl)
                 .path(uuid)
                 .request()
-                .delete();
+                .delete(Boolean.class);
+    }
+
+    @Override
+    public boolean createDocument(DocumentMetadata documentMetadata, InputStream content) {
+        return this.createDocument(documentMetadata) && this.setContent(documentMetadata.getUuid(), content);
+    }
+
+    @Override
+    public boolean setContent(String uuid, InputStream input) {
+        FormDataMultiPart form = new FormDataMultiPart()
+                .field("content", input, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+
+        return client.target(baseUrl)
+                .path(uuid + "/content")
+                .request()
+                .post(Entity.entity(form, form.getMediaType()), Boolean.class);
     }
 
     @Override

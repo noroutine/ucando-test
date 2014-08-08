@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class DocumentsController {
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
     @ResponseBody
-    public OperationResult delete(@PathVariable String  uuid) {
+    public OperationResult delete(@PathVariable String uuid) {
         fileArchiveRepository.delete(uuid);
         return OperationResult.ok();
     }
@@ -65,7 +66,11 @@ public class DocumentsController {
 
         documentMetadata.setUploadedBy(activeUser.getUsername());
 
-        fileArchiveRepository.upload(documentMetadata);
-        return OperationResult.ok();
+        try {
+            fileArchiveRepository.createDocument(documentMetadata, content.getInputStream());
+            return OperationResult.ok();
+        } catch (IOException e) {
+            return OperationResult.fail();
+        }
     }
 }
