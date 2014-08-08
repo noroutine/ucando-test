@@ -84,13 +84,6 @@
 
     <dependencies>
 
-        <!--<dependency>-->
-        <!--<groupId>org.codehaus.cargo</groupId>-->
-        <!--<artifactId>cargo-maven2-plugin</artifactId>-->
-        <!--<version>1.4.8</version>-->
-        <!--</dependency>-->
-
-
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>

@@ -38,33 +38,6 @@
 <%-- see ResourcesController --%>
 <util:js value="/resources.json"/>
 
-<c:choose>
-    <c:when test="${build_profile eq 'production'}">
-        <util:js value="/resources/vendor/js/all.js" minify="false"/>
-        <util:js value="/resources/js/all.js" minify="false"/>
-    </c:when>
-    <c:otherwise>
-        <%-- should be included in the same order as in pom.xml in yui compression plugin --%>
-
-        <util:js value="/resources/vendor/js/jquery-2.0.3.js"/>
-        <util:js value="/resources/vendor/js/jquery.tinypubsub.js"/>
-        <util:js value="/resources/vendor/js/jstorage-0.3.1.js"/>
-
-        <%-- Backbone.js --%>
-        <util:js value="/resources/vendor/js/lodash-1.3.1.js" />
-        <util:js value="/resources/vendor/js/backbone-1.0.0.js" />
-
-        <%-- Dust.js --%>
-        <util:js value="/resources/vendor/js/dust-full-2.0.2.js" />
-        <util:js value="/resources/vendor/js/dust-helpers-1.1.1.js" />
-
-        <%-- Twitter Bootstrap --%>
-        <util:js value="/resources/vendor/js/bootstrap-3.0.0.js" />
-
-        <util:js value="/resources/js/compatibility.js"/>
-        <util:js value="/resources/js/common.js"/>
-    </c:otherwise>
-</c:choose>
 
 <%--
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

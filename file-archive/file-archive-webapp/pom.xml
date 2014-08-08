@@ -34,7 +34,7 @@
                 <build.profile>development</build.profile>
                 <eclipselink.logging.level>FINE</eclipselink.logging.level>
                 <log.level>DEBUG</log.level>
-                <spring.log.level>INFO</spring.log.level>
+                <spring.log.level>DEBUG</spring.log.level>
                 <service.log.level>DEBUG</service.log.level>
                 <serialization.log.level>INFO</serialization.log.level>
             </properties>
@@ -543,15 +543,6 @@
 
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
@@ -606,6 +597,7 @@
                                 <!-- Twitter Bootstrap -->
                                 <include>bootstrap-3.0.0.min.css</include>
                                 <include>bootstrap-theme-3.0.0.min.css</include>
+                                <include>backgrid-0.3.5.min.css</include>
 
                                 <!-- HTML5 boilerplate -->
                                 <!--<include>normalize-2.1.3.min.css</include>-->
@@ -636,10 +628,11 @@
                                 <!-- backbone.js -->
                                 <include>lodash-1.3.1.min.js</include>
                                 <include>backbone-1.0.0.min.js</include>
+                                <include>backgrid-0.3.5.min.js</include>
 
                                 <!-- dust.js, stock minified files don't work -->
-                                <include>dust-full-2.0.2.min.js</include>
-                                <include>dust-helpers-1.1.1.min.js</include>
+                                <!--<include>dust-full-2.0.2.min.js</include>-->
+                                <!--<include>dust-helpers-1.1.1.min.js</include>-->
 
                                 <!-- Twitter Bootstrap -->
                                 <include>bootstrap-3.0.0.min.js</include>

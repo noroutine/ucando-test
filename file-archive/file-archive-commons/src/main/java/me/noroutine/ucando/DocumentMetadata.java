@@ -9,9 +9,10 @@ import java.util.UnknownFormatConversionException;
  * Created by oleksii on 07/08/14.
  */
 
-public class Document {
+@XmlRootElement
+public class DocumentMetadata {
 
-    private UUID uuid;
+    private String uuid;
 
     private String fileName;
 
@@ -21,13 +22,11 @@ public class Document {
 
     private Date uploadTime;
 
-    private byte[] content;
-
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
@@ -63,11 +62,4 @@ public class Document {
         this.uploadTime = uploadTime;
     }
 
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
 }

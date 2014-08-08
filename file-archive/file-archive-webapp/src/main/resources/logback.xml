@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
+        <file>/tmp/gf_server.log</file>
+        <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{HH:mm:ss} [%level] %mdc{req.requestURL} %logger{32} - %msg%n</pattern>
         </encoder>

@@ -9,11 +9,17 @@ import java.util.UUID;
  */
 public interface FileArchiveRepository {
 
-    void upload(Document document);
+    void upload(DocumentMetadata documentMetadata);
 
-    List<Document> searchByUploader(String uploader);
+    List<DocumentMetadata> searchByUploader(String uploader);
 
-    List<Document> searchByUploadedTime(Date from, Date to);
+    List<DocumentMetadata> searchByUploadedTime(Date from, Date to);
 
-    Document getById(UUID uuid);
+    DocumentMetadata getById(String uuid);
+
+    List<DocumentMetadata> findAll();
+
+    void delete(String uuid);
+
+    byte[] getContent(String uuid);
 }

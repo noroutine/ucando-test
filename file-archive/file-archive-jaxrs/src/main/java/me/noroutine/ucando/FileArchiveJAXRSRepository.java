@@ -1,5 +1,7 @@
 package me.noroutine.ucando;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -23,32 +25,52 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     }
 
     @Override
-    public void upload(Document document) {
+    public void upload(DocumentMetadata documentMetadata) {
         client.target(baseUrl)
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(document));
+                .post(Entity.json(documentMetadata));
     }
 
     @Override
-    public List<Document> searchByUploader(String uploader) {
+    public List<DocumentMetadata> searchByUploader(String uploader) {
         return client.target(baseUrl)
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Document>>() {});
+                .get(new GenericType<List<DocumentMetadata>>() {});
     }
 
     @Override
-    public List<Document> searchByUploadedTime(Date from, Date to) {
+    public List<DocumentMetadata> searchByUploadedTime(Date from, Date to) {
         return client.target(baseUrl)
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Document>>() {});
+                .get(new GenericType<List<DocumentMetadata>>() {});
     }
 
     @Override
-    public Document getById(UUID uuid) {
+    public DocumentMetadata getById(String uuid) {
         return client.target(baseUrl)
-                .path(uuid.toString())
+                .path(uuid)
                 .request(MediaType.APPLICATION_JSON)
-                .get(Document.class);
+                .get(DocumentMetadata.class);
+    }
+
+    @Override
+    public List<DocumentMetadata> findAll() {
+        return client.target(baseUrl)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<DocumentMetadata>>() {});
+    }
+
+    @Override
+    public void delete(String uuid) {
+        client.target(baseUrl)
+                .path(uuid)
+                .request()
+                .delete();
+    }
+
+    @Override
+    public byte[] getContent(String uuid) {
+        return new byte[0];
     }
 
     public String getBaseUrl() {
