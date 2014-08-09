@@ -1,15 +1,17 @@
-package me.noroutine.ucando;
+package me.noroutine.ucando.orm;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
-import java.util.UUID;
-import java.util.UnknownFormatConversionException;
 
 /**
- * Created by oleksii on 07/08/14.
+ * Created by oleksii on 09/08/14.
  */
-
+@Entity
+@Table(name = "documents")
+@NamedQueries({
+        @NamedQuery(name = "documents.findAll", query = "select dm from DocumentMetadata dm")
+})
 public class DocumentMetadata {
 
     private String uuid;
@@ -22,6 +24,8 @@ public class DocumentMetadata {
 
     private Date uploadTime;
 
+    @Id
+    @Column(name = "uuid")
     public String getUuid() {
         return uuid;
     }
@@ -30,6 +34,8 @@ public class DocumentMetadata {
         this.uuid = uuid;
     }
 
+    @Basic
+    @Column(name = "file_name")
     public String getFileName() {
         return fileName;
     }
@@ -38,6 +44,8 @@ public class DocumentMetadata {
         this.fileName = fileName;
     }
 
+    @Basic
+    @Column(name = "uploaded_by")
     public String getUploadedBy() {
         return uploadedBy;
     }
@@ -46,6 +54,9 @@ public class DocumentMetadata {
         this.uploadedBy = uploadedBy;
     }
 
+    @Basic
+    @Column(name = "document_date")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getDocumentDate() {
         return documentDate;
     }
@@ -54,6 +65,9 @@ public class DocumentMetadata {
         this.documentDate = documentDate;
     }
 
+    @Basic
+    @Column(name = "upload_time")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getUploadTime() {
         return uploadTime;
     }

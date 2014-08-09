@@ -1,8 +1,13 @@
 package me.noroutine.ucando;
 
 
+import me.noroutine.ucando.orm.DocumentMetadata;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -13,23 +18,27 @@ import java.util.*;
  * Root resource (exposed at "document" path)
  */
 @Path("document")
+@RequestScoped
 public class FileArchiveService {
+
+    @PersistenceContext(unitName = "FileArchivePU")
+    private EntityManager entityManager;
 
     @Context
     private Request request;
 
-    private List<DocumentMetadata> documentMetadataRepository = Storage.instance.getDocumentMetadataRepository();
-
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public List<DocumentMetadata> findAll() {
-        return Collections.unmodifiableList(documentMetadataRepository);
+        return entityManager.createNamedQuery("documents.findAll")
+                .getResultList();
     }
 
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @Transactional
     public boolean createDocument(DocumentMetadata documentMetadata) {
-        documentMetadataRepository.add(documentMetadata);
+        entityManager.persist(documentMetadata);
         return true;
     }
 
@@ -45,23 +54,22 @@ public class FileArchiveService {
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
     public DocumentMetadata getById(@PathParam("uuid") String uuid) {
-        return new DocumentMetadata();
+        return entityManager.find(DocumentMetadata.class, uuid);
     }
 
     @DELETE
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
+    @Transactional
     public boolean delete(@PathParam("uuid") String uuid) {
-        boolean removed = false;
-        final Iterator<DocumentMetadata> each = documentMetadataRepository.iterator();
-        while (each.hasNext()) {
-            if (each.next().getUuid().equals(uuid)) {
-                each.remove();
-                removed = true;
-            }
-        }
+        DocumentMetadata forDeletion = getById(uuid);
 
-        return removed;
+        if (forDeletion != null) {
+            entityManager.remove(forDeletion);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @GET
@@ -75,14 +83,14 @@ public class FileArchiveService {
     @Path("filter/uploadedBy")
     @Produces({ MediaType.APPLICATION_JSON })
     public List<DocumentMetadata> searchByUploader(@QueryParam("uploadedBy") String uploadedBy) {
-        return Collections.unmodifiableList(documentMetadataRepository);
+        return findAll();
     }
 
     @GET
     @Path("filter/uploadedTime")
     @Produces({ MediaType.APPLICATION_JSON })
     public List<DocumentMetadata> searchByUploadedTime(@QueryParam("from") Date from, @QueryParam("to") Date to) {
-        return Collections.unmodifiableList(documentMetadataRepository);
+        return findAll();
     }
 
 }
