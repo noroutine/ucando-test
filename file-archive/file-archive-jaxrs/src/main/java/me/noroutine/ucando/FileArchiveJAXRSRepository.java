@@ -1,17 +1,16 @@
 package me.noroutine.ucando;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by oleksii on 07/08/14.
@@ -77,13 +76,13 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public boolean setContent(String uuid, InputStream input) {
-        FormDataMultiPart form = new FormDataMultiPart()
-                .field("content", input, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        MultipartFormDataOutput form = new MultipartFormDataOutput();
+        form.addFormData("content", input, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
         return client.target(baseUrl)
                 .path(uuid + "/content")
                 .request()
-                .post(Entity.entity(form, form.getMediaType()), Boolean.class);
+                .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
     }
 
     @Override

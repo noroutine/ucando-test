@@ -93,6 +93,12 @@
             <name>Spring Maven MILESTONE Repository</name>
             <url>http://repo.springsource.org/libs-milestone</url>
         </repository>
+
+        <repository>
+            <id>jboss-public</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+
         <repository>
             <id>jboss</id>
             <name>JBoss Repository</name>
@@ -118,7 +124,20 @@
             <name>Project Repository</name>
             <url>${main.basedir}/repository</url>
         </repository>
+
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>1.0.0.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <modules>
         <module>file-archive-webapp</module>

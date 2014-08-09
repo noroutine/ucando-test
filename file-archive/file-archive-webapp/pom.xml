@@ -100,12 +100,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.servlet.jsp.jstl</artifactId>
-            <version>1.2.3</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.spec</groupId>-->
+            <!--<artifactId>jboss-javaee-7.0</artifactId>-->
+        <!--</dependency>-->
 
         <!-- JUnit 4 -->
         <dependency>
@@ -516,9 +514,16 @@
 
         <dependency>
             <groupId>me.noroutine.ucando</groupId>
+            <artifactId>file-archive-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.noroutine.ucando</groupId>
             <artifactId>file-archive-jaxrs</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -658,44 +663,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <version>1.4.8</version>
-                <configuration>
-                    <container>
-                        <containerId>glassfish4x</containerId>
-                        <type>remote</type>
-                    </container>
-                    <configuration>
-                        <type>runtime</type>
-                        <properties>
-                            <cargo.hostname>localhost</cargo.hostname>
-                            <cargo.remote.username>admin</cargo.remote.username>
-                            <cargo.remote.password>admin</cargo.remote.password>
-                            <cargo.remote.port>4848</cargo.remote.port>
-                            <cargo.runtime.args>--force</cargo.runtime.args>
-                            <!--<cargo.glassfish.domain.name>/file-archive-webapp</cargo.glassfish.domain.name>-->
-                        </properties>
-                    </configuration>
-                    <deployables>
-                        <deployable>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>${project.artifactId}</artifactId>
-                            <type>war</type>
-                            <!--<properties>-->
-                            <!--<context>/f</context>-->
-                            <!--</properties>-->
-                        </deployable>
-                    </deployables>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.glassfish.main.deployment</groupId>
-                        <artifactId>deployment-client</artifactId>
-                        <version>4.0</version>
-                    </dependency>
-                </dependencies>
-
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.0.Beta1</version>
             </plugin>
         </plugins>
     </build>
