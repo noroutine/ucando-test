@@ -2,7 +2,7 @@
 <configuration>
 
     <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
-        <file>/tmp/file-archive-webapp.log</file>
+        <file>/tmp/file-archive-service.log</file>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{HH:mm:ss} [%level] %mdc{req.requestURL} %logger{32} - %msg%n</pattern>

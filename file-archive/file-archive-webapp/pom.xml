@@ -13,45 +13,6 @@
 
     <packaging>war</packaging>
 
-    <profiles>
-        <profile>
-            <id>production</id>
-            <properties>
-                <build.profile>production</build.profile>
-                <eclipselink.logging.level>WARNING</eclipselink.logging.level>
-                <log.level>WARN</log.level>
-                <spring.log.level>WARN</spring.log.level>
-                <service.log.level>WARN</service.log.level>
-                <serialization.log.level>WARN</serialization.log.level>
-            </properties>
-        </profile>
-        <profile>
-            <id>development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <build.profile>development</build.profile>
-                <eclipselink.logging.level>FINE</eclipselink.logging.level>
-                <log.level>DEBUG</log.level>
-                <spring.log.level>DEBUG</spring.log.level>
-                <service.log.level>DEBUG</service.log.level>
-                <serialization.log.level>INFO</serialization.log.level>
-            </properties>
-        </profile>
-        <profile>
-            <id>debug</id>
-            <properties>
-                <build.profile>debug</build.profile>
-                <eclipselink.logging.level>FINE</eclipselink.logging.level>
-                <log.level>DEBUG</log.level>
-                <spring.log.level>DEBUG</spring.log.level>
-                <service.log.level>DEBUG</service.log.level>
-                <serialization.log.level>TRACE</serialization.log.level>
-            </properties>
-        </profile>
-    </profiles>
-
     <properties>
         <main.basedir>${project.basedir}/../</main.basedir>
 

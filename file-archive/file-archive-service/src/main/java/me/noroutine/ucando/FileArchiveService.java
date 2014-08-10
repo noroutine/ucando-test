@@ -9,8 +9,6 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,7 +39,6 @@ public class FileArchiveService {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @PermitAll
     @SuppressWarnings("unchecked")
     public List<DocumentMetadata> findAll() {
         return entityManager.createNamedQuery("documents.findAll")
@@ -50,7 +47,6 @@ public class FileArchiveService {
 
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean createDocument(@MultipartForm DocumentForm documentForm) {
         Session session = entityManager.unwrap(org.hibernate.Session.class);
@@ -73,7 +69,6 @@ public class FileArchiveService {
     @Path("{uuid}/content")
     @Consumes({ MediaType.MULTIPART_FORM_DATA })
     @Produces({ MediaType.APPLICATION_JSON })
-    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean setContent(@PathParam("uuid") String uuid, MultipartFormDataInput input) {
         Map<String, List<InputPart>> formParts = input.getFormDataMap();
@@ -96,7 +91,6 @@ public class FileArchiveService {
     @GET
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
-    @PermitAll
     public DocumentMetadata getById(@PathParam("uuid") String uuid) {
         return entityManager.find(DocumentMetadata.class, uuid);
     }
@@ -104,7 +98,6 @@ public class FileArchiveService {
     @DELETE
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
-    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean delete(@PathParam("uuid") String uuid) {
         DocumentMetadata forDeletion = getById(uuid);
@@ -120,7 +113,6 @@ public class FileArchiveService {
     @GET
     @Path("{uuid}/content")
     @Produces({ MediaType.APPLICATION_OCTET_STREAM })
-    @PermitAll
     public Response getContent(@PathParam("uuid") String uuid) throws SQLException {
         DocumentContent documentContent = entityManager.find(DocumentContent.class, uuid);
         if (documentContent != null) {

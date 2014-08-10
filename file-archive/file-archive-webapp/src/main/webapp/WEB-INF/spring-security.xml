@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <global-method-security proxy-target-class="true" pre-post-annotations="enabled" secured-annotations="enabled"/>
 
@@ -36,14 +36,16 @@
         </session-management>
     </http>
 
+    <jee:jndi-lookup id="userDS"
+                     jndi-name="java:/comp/env/jdbc/UserDS"
+                     expected-type="javax.sql.DataSource"/>
+
     <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="admin" password="LetMe1n!" authorities="ROLE_USER, ROLE_ADMIN"/>
-                <user name="joe" password="LetMe1n!" authorities="ROLE_USER"/>
-                <user name="jack" password="LetMe1n!" authorities="ROLE_USER"/>
-                <user name="jill" password="LetMe1n!" authorities="ROLE_USER"/>
-            </user-service>
+            <jdbc-user-service data-source-ref="userDS"
+                               users-by-username-query="select username, password, enabled from users where username = ?"
+                               authorities-by-username-query="select username, role from user_roles where username = ?" />
+
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
