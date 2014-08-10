@@ -17,19 +17,21 @@
         <li><a href="#byPerson" data-toggle="tab">Filter By Person</a></li>
         <li><a href="#byTime" data-toggle="tab">Filter By Time</a></li>
     </ul>
-    <div id="myTabContent" class="tab-content" style="height: 50px">
-        <div class="tab-pane active" id="all">
+    <div id="myTabContent" class="panel tab-content" style="height: 50px">
+        <div class="tab-pane panel-body active" id="all">
             <p>All documents are shown</p>
         </div>
-        <div class="tab-pane" id="byPerson">
-            <form>
-                <input type="text" placeholder="Type something…">
+        <div class="tab-pane panel-body" id="byPerson">
+            <form class="form-inline">
+                <input type="text" class="input-sm form-control" placeholder="Type name...">
             </form>
         </div>
-        <div class="tab-pane" id="byTime">
-            <form>
-                <input type="datetime" placeholder="From...">
-                <input type="datetime" placeholder="To...">
+        <div class="tab-pane panel-body" id="byTime">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="datetime" class="input-sm form-control" placeholder="From...">
+                    <input type="datetime" class="input-sm form-control" placeholder="To...">
+                </div>
             </form>
         </div>
     </div>

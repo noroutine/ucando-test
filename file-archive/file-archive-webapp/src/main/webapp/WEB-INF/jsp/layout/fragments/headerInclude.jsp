@@ -23,8 +23,7 @@
         <%--<util:css href="/resources/vendor/css/boilerplate-4.2.0.css" />--%>
 
         <%-- Twitter Bootstrap, see: http://getbootstrap.com/ --%>
-        <util:css href="/resources/vendor/css/bootstrap-3.0.0.css" />
-        <util:css href="/resources/vendor/css/bootstrap-theme-3.0.0.css" />
+        <util:css href="/resources/vendor/css/bootstrap-3.2.0.css" />
         <util:css href="/resources/vendor/css/backgrid-0.3.5.css" />
 
         <util:css href="/resources/css/main.css" />
@@ -53,7 +52,7 @@
         <util:js value="/resources/vendor/js/dust-helpers-1.1.1.js" />
 
         <%-- Twitter Bootstrap --%>
-        <util:js value="/resources/vendor/js/bootstrap-3.0.0.js" />
+        <util:js value="/resources/vendor/js/bootstrap-3.2.0.js" />
 
         <util:js value="/resources/js/compatibility.js"/>
         <util:js value="/resources/js/common.js"/>

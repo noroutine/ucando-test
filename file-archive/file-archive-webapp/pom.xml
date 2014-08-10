@@ -549,8 +549,7 @@
                             <includes>
 
                                 <!-- Twitter Bootstrap -->
-                                <include>bootstrap-3.0.0.min.css</include>
-                                <include>bootstrap-theme-3.0.0.min.css</include>
+                                <include>bootstrap-3.2.0.min.css</include>
                                 <include>backgrid-0.3.5.min.css</include>
 
                                 <!-- HTML5 boilerplate -->
@@ -589,7 +588,7 @@
                                 <!--<include>dust-helpers-1.1.1.min.js</include>-->
 
                                 <!-- Twitter Bootstrap -->
-                                <include>bootstrap-3.0.0.min.js</include>
+                                <include>bootstrap-3.2.0.min.js</include>
                             </includes>
                         </aggregation>
 
