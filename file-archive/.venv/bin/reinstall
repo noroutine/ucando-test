@@ -1,3 +1,4 @@
+cd $VIRTUAL_ENV/..
 (
     cd file-archive-commons
     mvn clean install

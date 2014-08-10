@@ -15,17 +15,22 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#all" data-toggle="tab">Show All</a></li>
         <li><a href="#byPerson" data-toggle="tab">Filter By Person</a></li>
-        <li><a href="#byTime" data-toggle="tab">Filter By Yime</a></li>
+        <li><a href="#byTime" data-toggle="tab">Filter By Time</a></li>
     </ul>
     <div id="myTabContent" class="tab-content" style="height: 50px">
         <div class="tab-pane active" id="all">
             <p>All documents are shown</p>
         </div>
         <div class="tab-pane" id="byPerson">
-            <p>person field here</p>
+            <form>
+                <input type="text" placeholder="Type something…">
+            </form>
         </div>
         <div class="tab-pane" id="byTime">
-            <p>date fields here</p>
+            <form>
+                <input type="datetime" placeholder="From...">
+                <input type="datetime" placeholder="To...">
+            </form>
         </div>
     </div>
 </section>
