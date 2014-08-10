@@ -1,7 +1,10 @@
 package me.noroutine.ucando.orm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -23,6 +26,8 @@ public class DocumentMetadata {
     private Date documentDate;
 
     private Date uploadTime;
+
+    private Blob content;
 
     @Id
     @Column(name = "uuid")
@@ -76,4 +81,15 @@ public class DocumentMetadata {
         this.uploadTime = uploadTime;
     }
 
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @Column(name = "content")
+    @JsonIgnore
+    public Blob getContent() {
+        return content;
+    }
+
+    public void setContent(Blob content) {
+        this.content = content;
+    }
 }

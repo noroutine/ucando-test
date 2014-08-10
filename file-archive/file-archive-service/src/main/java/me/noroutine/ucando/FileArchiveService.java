@@ -2,6 +2,12 @@ package me.noroutine.ucando;
 
 
 import me.noroutine.ucando.orm.DocumentMetadata;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 
 import javax.enterprise.context.RequestScoped;
@@ -12,6 +18,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.PreparedStatement;
 import java.util.*;
 
 /**
@@ -37,7 +47,11 @@ public class FileArchiveService {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @Transactional
-    public boolean createDocument(DocumentMetadata documentMetadata) {
+    public boolean createDocument(@MultipartForm DocumentForm documentForm) {
+        Session session = entityManager.unwrap(org.hibernate.Session.class);
+        Blob blob = Hibernate.getLobCreator(session).createBlob(documentForm.getContent(), -1);
+        DocumentMetadata documentMetadata = documentForm.getDocumentMetadata();
+        documentMetadata.setContent(blob);
         entityManager.persist(documentMetadata);
         return true;
     }
@@ -46,8 +60,23 @@ public class FileArchiveService {
     @Path("{uuid}/content")
     @Consumes({ MediaType.MULTIPART_FORM_DATA })
     @Produces({ MediaType.APPLICATION_JSON })
-    public boolean setContent(@PathParam("uuid") String uuid, MultipartInput input) {
-        return true;
+    @Transactional
+    public boolean setContent(@PathParam("uuid") String uuid, MultipartFormDataInput input) {
+        Map<String, List<InputPart>> formParts = input.getFormDataMap();
+        List<InputPart> inPart = formParts.get("content");
+        try {
+            InputStream body = inPart.get(0).getBody(InputStream.class, null);
+            Session session = entityManager.unwrap(org.hibernate.Session.class);
+            Blob blob = Hibernate.getLobCreator(session).createBlob(body, -1);
+            DocumentMetadata document = getById(uuid);
+            document.setContent(blob);
+            entityManager.merge(document);
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @GET

@@ -71,13 +71,19 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata, InputStream content) {
-        return this.createDocument(documentMetadata) && this.setContent(documentMetadata.getUuid(), content);
+        MultipartFormDataOutput form = new MultipartFormDataOutput();
+        form.addFormData("metadata", documentMetadata, MediaType.APPLICATION_JSON_TYPE);
+        form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+
+        return client.target(baseUrl)
+                .request()
+                .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
     }
 
     @Override
-    public boolean setContent(String uuid, InputStream input) {
+    public boolean setContent(String uuid, InputStream content) {
         MultipartFormDataOutput form = new MultipartFormDataOutput();
-        form.addFormData("content", input, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
         return client.target(baseUrl)
                 .path(uuid + "/content")
