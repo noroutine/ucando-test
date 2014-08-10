@@ -92,8 +92,12 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     }
 
     @Override
-    public byte[] getContent(String uuid) {
-        return new byte[0];
+    public InputStream getContentAsStream(String uuid) {
+        return client.target(baseUrl)
+                .path(uuid + "/content")
+                .request()
+                .accept(MediaType.APPLICATION_OCTET_STREAM_TYPE)
+                .get(new GenericType<InputStream>() {});
     }
 
     public String getBaseUrl() {

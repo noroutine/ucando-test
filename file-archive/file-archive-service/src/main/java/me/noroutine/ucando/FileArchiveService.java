@@ -9,6 +9,8 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,9 +19,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -37,6 +41,7 @@ public class FileArchiveService {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @PermitAll
     public List<DocumentMetadata> findAll() {
         return entityManager.createNamedQuery("documents.findAll")
                 .getResultList();
@@ -44,6 +49,7 @@ public class FileArchiveService {
 
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean createDocument(@MultipartForm DocumentForm documentForm) {
         Session session = entityManager.unwrap(org.hibernate.Session.class);
@@ -66,6 +72,7 @@ public class FileArchiveService {
     @Path("{uuid}/content")
     @Consumes({ MediaType.MULTIPART_FORM_DATA })
     @Produces({ MediaType.APPLICATION_JSON })
+    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean setContent(@PathParam("uuid") String uuid, MultipartFormDataInput input) {
         Map<String, List<InputPart>> formParts = input.getFormDataMap();
@@ -88,6 +95,7 @@ public class FileArchiveService {
     @GET
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
+    @PermitAll
     public DocumentMetadata getById(@PathParam("uuid") String uuid) {
         return entityManager.find(DocumentMetadata.class, uuid);
     }
@@ -95,6 +103,7 @@ public class FileArchiveService {
     @DELETE
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
+    @RolesAllowed({"FileArchiveManager"})
     @Transactional
     public boolean delete(@PathParam("uuid") String uuid) {
         DocumentMetadata forDeletion = getById(uuid);
@@ -110,8 +119,14 @@ public class FileArchiveService {
     @GET
     @Path("{uuid}/content")
     @Produces({ MediaType.APPLICATION_OCTET_STREAM })
-    public byte[] getContent(@PathParam("uuid") String uuid) {
-        return new byte[0];
+    @PermitAll
+    public Response getContent(@PathParam("uuid") String uuid) throws SQLException {
+        DocumentContent documentContent = entityManager.find(DocumentContent.class, uuid);
+        if (documentContent != null) {
+            return Response.ok(documentContent.getContent().getBinaryStream(), MediaType.APPLICATION_OCTET_STREAM_TYPE).build();
+        } else {
+            return Response.status(404).build();
+        }
     }
 
     @GET

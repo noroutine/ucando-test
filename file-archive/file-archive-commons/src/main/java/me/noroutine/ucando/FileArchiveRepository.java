@@ -23,7 +23,7 @@ public interface FileArchiveRepository {
 
     boolean delete(String uuid);
 
-    byte[] getContent(String uuid);
+    InputStream getContentAsStream(String uuid);
 
     boolean setContent(String uuid, InputStream input);
 }
