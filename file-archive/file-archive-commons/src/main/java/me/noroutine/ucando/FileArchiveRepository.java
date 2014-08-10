@@ -15,7 +15,7 @@ public interface FileArchiveRepository {
 
     List<DocumentMetadata> searchByUploader(String uploader);
 
-    List<DocumentMetadata> searchByUploadedTime(Date from, Date to);
+    List<DocumentMetadata> searchByUploadedTime(long from, long to);
 
     DocumentMetadata getById(String uuid);
 

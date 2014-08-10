@@ -45,6 +45,18 @@ public class DocumentsController {
         return fileArchiveRepository.findAll();
     }
 
+    @RequestMapping(value = "/filter/uploadedBy", produces = MediaType.APPLICATION_JSON, method = RequestMethod.GET)
+    @ResponseBody
+    public List<DocumentMetadata> getDocumentsFilteredByName(@RequestParam String uploadedBy) {
+        return fileArchiveRepository.searchByUploader(uploadedBy);
+    }
+
+    @RequestMapping(value = "/filter/uploadedTime", produces = MediaType.APPLICATION_JSON, method = RequestMethod.GET)
+    @ResponseBody
+    public List<DocumentMetadata> getDocumentsFilteredByTime(@RequestParam long from, @RequestParam long to) {
+        return fileArchiveRepository.searchByUploadedTime(from, to);
+    }
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
     @ResponseBody
     public OperationResult delete(@PathVariable String uuid) {

@@ -70,6 +70,8 @@
             window.app_lastTime = time_ms;
             window.app_prevLabel = label;
         };
+
+        window.CONTEXT_URL = '<spring:url value="/" />';
     </script>
     <tiles:insertAttribute name="headerInclude"/>
 </head>

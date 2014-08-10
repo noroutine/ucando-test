@@ -6,7 +6,7 @@
 
     var Documents = Backbone.Collection.extend({
         model: Document,
-        url: 'http://localhost:8080/file-archive-webapp/documents/all'
+        url: CONTEXT_URL + 'documents/all'
     });
 
     var documents = new Documents();
@@ -19,7 +19,7 @@
         deleteRow: function (e) {
             e.preventDefault();
             var self = this;
-            $.ajax({ url: 'http://localhost:8080/file-archive-webapp/documents/' + self.model.attributes.uuid, type: 'delete'})
+            $.ajax({ url: CONTEXT_URL + 'documents/' + self.model.attributes.uuid, type: 'delete'})
                 .success(function() {
                     self.model.collection.remove(self.model);
                 });
@@ -32,7 +32,7 @@
     });
 
     var DownloadCell = Backgrid.Cell.extend({
-        template: _.template("<a href='http://localhost:8080/file-archive-webapp/documents/<%= uuid%>/download/<%= fileName %>'><%= fileName %></a>"),
+        template: _.template("<a href='" + CONTEXT_URL + "documents/<%= uuid%>/download/<%= fileName %>'><%= fileName %></a>"),
         render: function () {
             this.$el.html(this.template(this.model.attributes));
             return this;
@@ -162,14 +162,14 @@
     $('#all').on('click', showAll);
 
     function showAll() {
-        documents.url = 'http://localhost:8080/file-archive-webapp/documents/all';
+        documents.url = CONTEXT_URL + 'documents/all';
         documents.fetch();
     }
 
     function filterByName() {
         var nameFilter = $('#name_filter').val();
         if (nameFilter) {
-            documents.url = 'http://localhost:8080/file-archive-service/document/filter/uploadedBy?uploadedBy=' + nameFilter;
+            documents.url = CONTEXT_URL + 'documents/filter/uploadedBy?uploadedBy=' + nameFilter;
             documents.fetch();
         } else {
             showAll();
@@ -179,7 +179,7 @@
     function filterByTime() {
         var fromTime = $('#picker_from').data("DateTimePicker").getDate();
         var toTime = $('#picker_to').data("DateTimePicker").getDate();
-        documents.url = 'http://localhost:8080/file-archive-service/document/filter/uploadedTime?from=' + fromTime + '&to=' + toTime;
+        documents.url = CONTEXT_URL + 'documents/filter/uploadedTime?from=' + fromTime + '&to=' + toTime;
         documents.fetch();
     }
 
