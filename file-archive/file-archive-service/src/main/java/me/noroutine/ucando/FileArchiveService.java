@@ -5,11 +5,9 @@ import me.noroutine.ucando.orm.DocumentContent;
 import me.noroutine.ucando.orm.DocumentMetadata;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.internal.SessionImpl;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -22,7 +20,6 @@ import javax.ws.rs.core.Request;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.PreparedStatement;
 import java.util.*;
 
 /**
