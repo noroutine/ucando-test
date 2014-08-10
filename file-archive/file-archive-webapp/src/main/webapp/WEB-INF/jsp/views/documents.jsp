@@ -12,7 +12,22 @@
 
 <section>
 <h1>Files</h1>
-
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#all" data-toggle="tab">Show All</a></li>
+        <li><a href="#byPerson" data-toggle="tab">Filter By Person</a></li>
+        <li><a href="#byTime" data-toggle="tab">Filter By Yime</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content" style="height: 50px">
+        <div class="tab-pane active" id="all">
+            <p>All documents are shown</p>
+        </div>
+        <div class="tab-pane" id="byPerson">
+            <p>person field here</p>
+        </div>
+        <div class="tab-pane" id="byTime">
+            <p>date fields here</p>
+        </div>
+    </div>
 </section>
 
 <section id="documents_view">
@@ -22,7 +37,7 @@
     <fieldset>
         <legend></legend>
         <input id="upload_file" type="file" style="display: none" />
-        <button id="upload_btn" type="button" class="button" ><i class="fa fa-cloud-upload"></i><spring:message code="button.upload" /></button> <span id="upload_progress"></span>
+        <button id="upload_btn" type="button" class="btn btn-primary btn-small" ><i class="fa fa-cloud-upload"></i><spring:message code="button.upload" /></button> <span id="upload_progress"></span>
     </fieldset>
 </section>
 

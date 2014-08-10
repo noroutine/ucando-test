@@ -82,6 +82,8 @@
 
     <bean class="me.noroutine.ucando.FileArchiveJAXRSRepository">
         <property name="baseUrl" value="http://localhost:8080/file-archive-service/document" />
+        <property name="fileArchiveManagerUser" value="archive-admin" />
+        <property name="fileArchiveManagerPassword" value="LetMe1n!" />
     </bean>
 
 </beans>

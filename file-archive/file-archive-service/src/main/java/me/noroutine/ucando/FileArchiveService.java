@@ -42,6 +42,7 @@ public class FileArchiveService {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @PermitAll
+    @SuppressWarnings("unchecked")
     public List<DocumentMetadata> findAll() {
         return entityManager.createNamedQuery("documents.findAll")
                 .getResultList();
@@ -132,15 +133,22 @@ public class FileArchiveService {
     @GET
     @Path("filter/uploadedBy")
     @Produces({ MediaType.APPLICATION_JSON })
+    @SuppressWarnings("unchecked")
     public List<DocumentMetadata> searchByUploader(@QueryParam("uploadedBy") String uploadedBy) {
-        return findAll();
+        return entityManager.createNamedQuery("documents.findByUploader")
+                .setParameter("uploadedBy", uploadedBy)
+                .getResultList();
     }
 
     @GET
     @Path("filter/uploadedTime")
     @Produces({ MediaType.APPLICATION_JSON })
+    @SuppressWarnings("unchecked")
     public List<DocumentMetadata> searchByUploadedTime(@QueryParam("from") Date from, @QueryParam("to") Date to) {
-        return findAll();
+        return entityManager.createNamedQuery("documents.findByUploadTimeRange")
+                .setParameter("from_time", from)
+                .setParameter("to_time", to)
+                .getResultList();
     }
 
 }

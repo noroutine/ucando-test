@@ -13,7 +13,9 @@ import java.util.Date;
 @Entity
 @Table(name = "documents")
 @NamedQueries({
-        @NamedQuery(name = "documents.findAll", query = "select dm from DocumentMetadata dm")
+        @NamedQuery(name = "documents.findAll", query = "select dm from DocumentMetadata dm"),
+        @NamedQuery(name = "documents.findByUploader", query = "select dm from DocumentMetadata dm where dm.uploadedBy = :uploadedBy"),
+        @NamedQuery(name = "documents.findByUploadTimeRange", query = "select dm from DocumentMetadata dm where dm.uploadTime between :from_time and :to_time")
 })
 public class DocumentMetadata {
 

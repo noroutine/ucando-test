@@ -40,13 +40,13 @@
     });
 
     var columns = [
-        {
-            name: "uuid",
-            label: "UUID",
-            editable: false,
-            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
-        },
+//        {
+//            name: "uuid",
+//            label: "UUID",
+//            editable: false,
+//            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
+//            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+//        },
         {
             name: "fileName",
             label: "Name",

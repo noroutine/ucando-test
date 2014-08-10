@@ -1,5 +1,6 @@
 package me.noroutine.ucando;
 
+import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
 
 import javax.ws.rs.client.Client;
@@ -21,6 +22,10 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     private String baseUrl;
 
+    private String fileArchiveManagerUser;
+
+    private String fileArchiveManagerPassword;
+
     public FileArchiveJAXRSRepository() {
         this.client = ClientBuilder.newClient();
     }
@@ -28,6 +33,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata) {
         return client.target(baseUrl)
+                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.json(documentMetadata), Boolean.class);
     }
@@ -65,6 +71,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     public boolean delete(String uuid) {
         return client.target(baseUrl)
                 .path(uuid)
+                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .delete(Boolean.class);
     }
@@ -76,6 +83,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
         return client.target(baseUrl)
+                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
     }
@@ -87,6 +95,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
         return client.target(baseUrl)
                 .path(uuid + "/content")
+                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
     }
@@ -97,7 +106,8 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
                 .path(uuid + "/content")
                 .request()
                 .accept(MediaType.APPLICATION_OCTET_STREAM_TYPE)
-                .get(new GenericType<InputStream>() {});
+                .get(new GenericType<InputStream>() {
+                });
     }
 
     public String getBaseUrl() {
@@ -106,6 +116,22 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public String getFileArchiveManagerUser() {
+        return fileArchiveManagerUser;
+    }
+
+    public void setFileArchiveManagerUser(String fileArchiveManagerUser) {
+        this.fileArchiveManagerUser = fileArchiveManagerUser;
+    }
+
+    public String getFileArchiveManagerPassword() {
+        return fileArchiveManagerPassword;
+    }
+
+    public void setFileArchiveManagerPassword(String fileArchiveManagerPassword) {
+        this.fileArchiveManagerPassword = fileArchiveManagerPassword;
     }
 }
 
