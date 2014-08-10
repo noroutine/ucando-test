@@ -27,8 +27,6 @@ public class DocumentMetadata {
 
     private Date uploadTime;
 
-    private Blob content;
-
     @Id
     @Column(name = "uuid")
     public String getUuid() {
@@ -79,17 +77,5 @@ public class DocumentMetadata {
 
     public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
-    }
-
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    @Column(name = "content")
-    @JsonIgnore
-    public Blob getContent() {
-        return content;
-    }
-
-    public void setContent(Blob content) {
-        this.content = content;
     }
 }

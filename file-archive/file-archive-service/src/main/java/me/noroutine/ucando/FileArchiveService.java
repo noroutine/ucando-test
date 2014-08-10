@@ -1,6 +1,7 @@
 package me.noroutine.ucando;
 
 
+import me.noroutine.ucando.orm.DocumentContent;
 import me.noroutine.ucando.orm.DocumentMetadata;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -49,10 +50,18 @@ public class FileArchiveService {
     @Transactional
     public boolean createDocument(@MultipartForm DocumentForm documentForm) {
         Session session = entityManager.unwrap(org.hibernate.Session.class);
-        Blob blob = Hibernate.getLobCreator(session).createBlob(documentForm.getContent(), -1);
+        Blob contentBlob = Hibernate.getLobCreator(session).createBlob(documentForm.getContent(), -1);
+
         DocumentMetadata documentMetadata = documentForm.getDocumentMetadata();
-        documentMetadata.setContent(blob);
+
         entityManager.persist(documentMetadata);
+
+        entityManager.flush();
+
+        DocumentContent documentContent = entityManager.find(DocumentContent.class, documentMetadata.getUuid());
+        documentContent.setContent(contentBlob);
+        entityManager.merge(documentContent);
+
         return true;
     }
 
@@ -67,10 +76,10 @@ public class FileArchiveService {
         try {
             InputStream body = inPart.get(0).getBody(InputStream.class, null);
             Session session = entityManager.unwrap(org.hibernate.Session.class);
-            Blob blob = Hibernate.getLobCreator(session).createBlob(body, -1);
-            DocumentMetadata document = getById(uuid);
-            document.setContent(blob);
-            entityManager.merge(document);
+            Blob contentBlob = Hibernate.getLobCreator(session).createBlob(body, -1);
+            DocumentContent documentContent = entityManager.find(DocumentContent.class, uuid);
+            documentContent.setContent(contentBlob);
+            entityManager.merge(documentContent);
             return true;
 
         } catch (IOException e) {

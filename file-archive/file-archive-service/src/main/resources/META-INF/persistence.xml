@@ -2,5 +2,8 @@
     <persistence-unit name="FileArchivePU">
         <description>This unit manages documents</description>
         <jta-data-source>java:/comp/env/jdbc/FileArchiveDS</jta-data-source>
+        <properties>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
     </persistence-unit>
 </persistence>
