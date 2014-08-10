@@ -157,6 +157,32 @@
         uploadFile.click();
     });
 
+    $('#search_by_name').on('click', filterByName);
+    $('#search_by_time').on('click', filterByTime);
+    $('#all').on('click', showAll);
+
+    function showAll() {
+        documents.url = 'http://localhost:8080/file-archive-webapp/documents/all';
+        documents.fetch();
+    }
+
+    function filterByName() {
+        var nameFilter = $('#name_filter').val();
+        if (nameFilter) {
+            documents.url = 'http://localhost:8080/file-archive-service/document/filter/uploadedBy?uploadedBy=' + nameFilter;
+            documents.fetch();
+        } else {
+            showAll();
+        }
+    }
+
+    function filterByTime() {
+        var fromTime = $('#picker_from').data("DateTimePicker").getDate();
+        var toTime = $('#picker_to').data("DateTimePicker").getDate();
+        documents.url = 'http://localhost:8080/file-archive-service/document/filter/uploadedTime?from=' + fromTime + '&to=' + toTime;
+        documents.fetch();
+    }
+
     $('#picker_from').datetimepicker();
     $('#picker_to').datetimepicker();
 })();

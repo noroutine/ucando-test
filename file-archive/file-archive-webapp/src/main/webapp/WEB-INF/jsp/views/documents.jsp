@@ -23,8 +23,8 @@
         </div>
         <div class="tab-pane panel-body" id="byPerson">
             <form class="form-inline">
-                <input type="text" class="input-sm form-control" placeholder="Type name...">
-                <button class="btn btn-primary btn-sm">Search</button>
+                <input id="name_filter" type="text" class="input-sm form-control" placeholder="Type name...">
+                <button type="button" id="search_by_name" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
         <div class="tab-pane panel-body" id="byTime">
@@ -39,7 +39,7 @@
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <button class="btn btn-primary btn-sm">Search</button>
+                <button type="button" id="search_by_time" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
     </div>

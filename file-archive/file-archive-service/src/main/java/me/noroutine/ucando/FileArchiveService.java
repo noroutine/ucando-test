@@ -136,10 +136,10 @@ public class FileArchiveService {
     @Path("filter/uploadedTime")
     @Produces({ MediaType.APPLICATION_JSON })
     @SuppressWarnings("unchecked")
-    public List<DocumentMetadata> searchByUploadedTime(@QueryParam("from") Date from, @QueryParam("to") Date to) {
+    public List<DocumentMetadata> searchByUploadedTime(@QueryParam("from") long from, @QueryParam("to") long to) {
         return entityManager.createNamedQuery("documents.findByUploadTimeRange")
-                .setParameter("from_time", from)
-                .setParameter("to_time", to)
+                .setParameter("from_time", new Date(from))
+                .setParameter("to_time", new Date(to))
                 .getResultList();
     }
 
