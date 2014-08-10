@@ -24,6 +24,7 @@
 
         <%-- Twitter Bootstrap, see: http://getbootstrap.com/ --%>
         <util:css href="/resources/vendor/css/bootstrap-3.2.0.css" />
+        <util:css href="/resources/vendor/css/bootstrap.datetimepicker-3.0.3.css" />
         <util:css href="/resources/vendor/css/backgrid-0.3.5.css" />
 
         <util:css href="/resources/css/main.css" />
@@ -41,6 +42,7 @@
         <util:js value="/resources/vendor/js/jquery-2.0.3.js"/>
         <util:js value="/resources/vendor/js/jquery.tinypubsub.js"/>
         <util:js value="/resources/vendor/js/jstorage-0.3.1.js"/>
+        <util:js value="/resources/vendor/js/moment-2.8.1.js"/>
 
         <%-- Backbone.js --%>
         <util:js value="/resources/vendor/js/lodash-1.3.1.js" />
@@ -53,6 +55,7 @@
 
         <%-- Twitter Bootstrap --%>
         <util:js value="/resources/vendor/js/bootstrap-3.2.0.js" />
+        <util:js value="/resources/vendor/js/bootstrap.datetimepicker-3.0.3.js" />
 
         <util:js value="/resources/js/compatibility.js"/>
         <util:js value="/resources/js/common.js"/>

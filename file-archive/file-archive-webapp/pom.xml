@@ -550,6 +550,8 @@
 
                                 <!-- Twitter Bootstrap -->
                                 <include>bootstrap-3.2.0.min.css</include>
+                                <include>bootstrap.datetimepicker-3.0.3.min.css</include>
+
                                 <include>backgrid-0.3.5.min.css</include>
 
                                 <!-- HTML5 boilerplate -->
@@ -577,6 +579,7 @@
                                 <include>jquery-2.0.3.min.js</include>
                                 <include>jquery.tinypubsub.min.js</include>
                                 <include>jstorage-0.3.1.min.js</include>
+                                <include>moment-2.8.1.min.js</include>
 
                                 <!-- backbone.js -->
                                 <include>lodash-1.3.1.min.js</include>
@@ -589,6 +592,7 @@
 
                                 <!-- Twitter Bootstrap -->
                                 <include>bootstrap-3.2.0.min.js</include>
+                                <include>bootstrap.datetimepicker-3.0.3.min.js</include>
                             </includes>
                         </aggregation>
 

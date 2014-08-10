@@ -157,5 +157,7 @@
         uploadFile.click();
     });
 
+    $('#picker_from').datetimepicker();
+    $('#picker_to').datetimepicker();
 })();
 

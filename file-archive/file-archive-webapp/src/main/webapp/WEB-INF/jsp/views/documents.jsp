@@ -14,8 +14,8 @@
 <h1>Files</h1>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#all" data-toggle="tab">Show All</a></li>
-        <li><a href="#byPerson" data-toggle="tab">Filter By Person</a></li>
-        <li><a href="#byTime" data-toggle="tab">Filter By Time</a></li>
+        <li><a href="#byPerson" data-toggle="tab">Search By Person</a></li>
+        <li><a href="#byTime" data-toggle="tab">Search By Time</a></li>
     </ul>
     <div id="myTabContent" class="panel tab-content" style="height: 50px">
         <div class="tab-pane panel-body active" id="all">
@@ -24,14 +24,22 @@
         <div class="tab-pane panel-body" id="byPerson">
             <form class="form-inline">
                 <input type="text" class="input-sm form-control" placeholder="Type name...">
+                <button class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
         <div class="tab-pane panel-body" id="byTime">
             <form class="form-inline">
-                <div class="form-group">
-                    <input type="datetime" class="input-sm form-control" placeholder="From...">
-                    <input type="datetime" class="input-sm form-control" placeholder="To...">
+                <div class='input-group date' id='picker_from'>
+                    <input type='text' class="input-sm form-control" placeholder="From..."/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
                 </div>
+                <div class='input-group date' id='picker_to'>
+                    <input type='text' class="input-sm form-control" placeholder="To..."/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <button class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
     </div>
@@ -44,7 +52,7 @@
     <fieldset>
         <legend></legend>
         <input id="upload_file" type="file" style="display: none" />
-        <button id="upload_btn" type="button" class="btn btn-primary btn-small" ><i class="fa fa-cloud-upload"></i><spring:message code="button.upload" /></button> <span id="upload_progress"></span>
+        <button id="upload_btn" type="button" class="btn btn-primary btn-sm" ><i class="fa fa-cloud-upload"></i><spring:message code="button.upload" /></button> <span id="upload_progress"></span>
     </fieldset>
 </section>
 
