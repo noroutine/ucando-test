@@ -58,6 +58,16 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     }
 
     @Override
+    public List<DocumentMetadata> searchByDocumentDate(long from, long to) {
+        return client.target(baseUrl)
+                .path("/filter/documentDate")
+                .queryParam("from", from)
+                .queryParam("to", to)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<DocumentMetadata>>() {});
+    }
+
+    @Override
     public DocumentMetadata getById(String uuid) {
         return client.target(baseUrl)
                 .path(uuid)

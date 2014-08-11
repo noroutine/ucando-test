@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>/tmp/file-archive-service.log</file>
         <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss} [%level] %mdc{req.requestURL} %logger{32} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{HH:mm:ss} [%level] %mdc{req.requestURL} %logger{32} - %msg%n</pattern>
         </encoder>
@@ -12,11 +18,13 @@
     <!-- don't change levels here, use profiles instead -->
     <logger name="org.springframework" level="${spring.log.level}" />
     <logger name="org.springframework.security" level="${security.log.level}" />
+
     <logger name="${package}.service" level="${service.log.level}" />
 
     <root>
         <level value="${log.level}"/>
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT" />
     </root>
 
 </configuration>

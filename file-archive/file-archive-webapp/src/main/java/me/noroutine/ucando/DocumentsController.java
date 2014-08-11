@@ -57,6 +57,12 @@ public class DocumentsController {
         return fileArchiveRepository.searchByUploadedTime(from, to);
     }
 
+    @RequestMapping(value = "/filter/documentDate", produces = MediaType.APPLICATION_JSON, method = RequestMethod.GET)
+    @ResponseBody
+    public List<DocumentMetadata> getDocumentsFilteredByDocumentDate(@RequestParam long from, @RequestParam long to) {
+        return fileArchiveRepository.searchByDocumentDate(from, to);
+    }
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
     @ResponseBody
     public OperationResult delete(@PathVariable String uuid) {

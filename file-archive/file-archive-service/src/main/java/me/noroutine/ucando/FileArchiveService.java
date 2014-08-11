@@ -143,4 +143,14 @@ public class FileArchiveService {
                 .getResultList();
     }
 
+    @GET
+    @Path("filter/documentDate")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @SuppressWarnings("unchecked")
+    public List<DocumentMetadata> searchByDocumentdate(@QueryParam("from") long from, @QueryParam("to") long to) {
+        return entityManager.createNamedQuery("documents.findBydocumentDateRange")
+                .setParameter("from_time", new Date(from))
+                .setParameter("to_time", new Date(to))
+                .getResultList();
+    }
 }

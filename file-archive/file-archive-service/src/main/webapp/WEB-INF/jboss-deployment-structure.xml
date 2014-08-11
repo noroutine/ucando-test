@@ -6,5 +6,6 @@
         <exclude-subsystems>
             <subsystem name="logging" />
         </exclude-subsystems>
+
     </deployment>
 </jboss-deployment-structure>
