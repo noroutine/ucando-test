@@ -1,6 +1,7 @@
 (function () {
     "use strict";
 
+    var uploadInProgress = false;
 
     var Document = Backbone.Model.extend({});
 
@@ -95,6 +96,7 @@
     var uploadFile = $('#upload_file');
 
     uploadFile.on('change', function (e) {
+        uploadInProgress = true;
         var uploadProgress = document.getElementById('upload_progress');
 
         if (uploadFile.val()) {
@@ -124,6 +126,7 @@
         }, false);
 
         xhr.addEventListener('loadend', function (e) {
+            uploadInProgress = false;
             uploadFile.val("");
             documents.fetch();
         });
@@ -196,5 +199,13 @@
     $('#picker_upload_time_to').datetimepicker();
     $('#picker_doc_date_from').datetimepicker();
     $('#picker_doc_date_to').datetimepicker();
+
+    window.addEventListener('beforeunload', function (e) {
+        if (uploadInProgress) {
+            var confirmationMessage = 'Upload is in progress. Do you really want to leave?';
+            (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+            return confirmationMessage;
+        }
+    });
 })();
 
