@@ -8,3 +8,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="util" tagdir="/WEB-INF/tags/util" %>
 <%@ taglib prefix="tb" uri="/WEB-INF/taglib/taglib.tld" %>
+
+<h1>Your stuff, anywhere!</h1>
+
+<p><strong>Dropbox</strong> is a free service that lets you bring your photos, docs, and videos anywhere and share them easily. Never email yourself a file again!</p>

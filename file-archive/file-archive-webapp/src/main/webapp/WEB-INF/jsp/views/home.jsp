@@ -11,7 +11,27 @@
 
 <util:js value="/resources/js/pages/home.js" />
 
-<h1>Bootstrap starter template</h1>
-<p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+<h1>File Archive</h1>
+<p>
+Project consists of four modules: two libraries and two webapps:
+</p>
+<p>
+WebApp is communicating to File Service through Java SDK. File Service is using JPA for persistence and both are using JAX-RS for REST
+File content is stored as BLOBs into the database, which doesn't work well with MySQL - expect files above 250Mb to make everything slow and failing.
+Webapp and service were designed to handle files up to 1Gb but MySQL is a bad choice here. Storing content on the disk or AWS would raise the limit.
+</p>
+<p>
+WebApp and File Service use another database for authenticating users.
+</p>
+<p>
+There are four users predefined with roles in braces: admin, joe, jack and jill.
+Password is <pre>LetMe1n!</pre>
+</p>
+<p>
+    For Service and SDK I used JAX-RS
+</p>
+    For WebApp I used my other project Tobacco, which uses Backbone and Twitter Bootstrap for frontend, Spring, Spring Security and Tiles on backend.
+</p>
 
+<h3>This is how it should look like</h3>
 <img src="<spring:url value="/resources/images/file-archive-webapp-shot.png" />" width="80%" />
