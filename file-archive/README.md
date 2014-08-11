@@ -49,7 +49,7 @@ java:/comp/env/jdbc/UserDS           JDBC URL: jdbc:mysql://localhost:3306/userd
 6. MySQL Connector shall be deployed
 7. file-archive-service.war shall be deployed
 8. file-archive-webapp.war shall be deployed
-
+9. To increase file upload size configure max_allowed_packet in my.cnf and add max-post-size to wildfly http listener
 ### Brief Description
 
 Project consists of four modules: two libraries and two webapps.
