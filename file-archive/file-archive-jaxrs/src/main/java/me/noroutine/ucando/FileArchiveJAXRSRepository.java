@@ -26,13 +26,9 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     private String fileArchiveManagerPassword;
 
-    public FileArchiveJAXRSRepository() {
-        this.client = ClientBuilder.newClient();
-    }
-
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.json(documentMetadata), Boolean.class);
@@ -40,7 +36,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public List<DocumentMetadata> searchByUploader(String uploader) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path("/filter/uploadedBy")
                 .queryParam("uploadedBy", uploader)
                 .request(MediaType.APPLICATION_JSON)
@@ -49,7 +45,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public List<DocumentMetadata> searchByUploadedTime(long from, long to) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path("/filter/uploadedTime")
                 .queryParam("from", from)
                 .queryParam("to", to)
@@ -59,7 +55,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public List<DocumentMetadata> searchByDocumentDate(long from, long to) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path("/filter/documentDate")
                 .queryParam("from", from)
                 .queryParam("to", to)
@@ -69,7 +65,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public DocumentMetadata getById(String uuid) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path(uuid)
                 .request(MediaType.APPLICATION_JSON)
                 .get(DocumentMetadata.class);
@@ -77,14 +73,14 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public List<DocumentMetadata> findAll() {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<DocumentMetadata>>() {});
     }
 
     @Override
     public boolean delete(String uuid) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path(uuid)
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
@@ -97,7 +93,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         form.addFormData("metadata", documentMetadata, MediaType.APPLICATION_JSON_TYPE);
         form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
@@ -108,7 +104,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         MultipartFormDataOutput form = new MultipartFormDataOutput();
         form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path(uuid + "/content")
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
@@ -117,7 +113,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public InputStream getContentAsStream(String uuid) {
-        return client.target(baseUrl)
+        return ClientBuilder.newClient().target(baseUrl)
                 .path(uuid + "/content")
                 .request()
                 .accept(MediaType.APPLICATION_OCTET_STREAM_TYPE)
