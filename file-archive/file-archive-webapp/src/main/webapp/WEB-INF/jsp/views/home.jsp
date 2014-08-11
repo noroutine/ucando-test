@@ -17,7 +17,7 @@ Project consists of four modules: two libraries and two webapps:
 </p>
 <p>
 WebApp is communicating to File Service through Java SDK. File Service is using JPA for persistence and both are using JAX-RS for REST
-File content is stored as BLOBs into the database, which doesn't work well with MySQL - expect files above 250Mb to make everything slow and failing.
+File content is stored as BLOBs into the database, which doesn't work well with MySQL - expect files above 500Mb to make everything slow and failing.
 Webapp and service were designed to handle files up to 1Gb but MySQL is a bad choice here. Storing content on the disk or AWS would raise the limit.
 </p>
 <p>

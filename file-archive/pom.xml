@@ -6,7 +6,7 @@
     <artifactId>file-archive</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Tobacco</name>
+    <name>Dropbox</name>
     <description>Tobacco Application</description>
 
     <properties>
