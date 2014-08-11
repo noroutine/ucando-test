@@ -158,8 +158,10 @@
     });
 
     $('#search_by_name').on('click', filterByName);
-    $('#search_by_time').on('click', filterByTime);
-    $('#all').on('click', showAll);
+    $('#search_by_upload_time').on('click', filterByUploadTime);
+    $('#search_by_doc_date').on('click', filterByDocumentDate);
+    // when all tab is shown, we need to reset the data
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"][href="#all"]', showAll);
 
     function showAll() {
         documents.url = CONTEXT_URL + 'documents/all';
@@ -176,14 +178,23 @@
         }
     }
 
-    function filterByTime() {
-        var fromTime = $('#picker_from').data("DateTimePicker").getDate();
-        var toTime = $('#picker_to').data("DateTimePicker").getDate();
+    function filterByUploadTime() {
+        var fromTime = $('#picker_upload_time_from').data("DateTimePicker").getDate();
+        var toTime = $('#picker_upload_time_to').data("DateTimePicker").getDate();
         documents.url = CONTEXT_URL + 'documents/filter/uploadedTime?from=' + fromTime + '&to=' + toTime;
         documents.fetch();
     }
 
-    $('#picker_from').datetimepicker();
-    $('#picker_to').datetimepicker();
+    function filterByDocumentDate() {
+        var fromTime = $('#picker_doc_date_from').data("DateTimePicker").getDate();
+        var toTime = $('#picker_doc_date_to').data("DateTimePicker").getDate();
+        documents.url = CONTEXT_URL + 'documents/filter/documentDate?from=' + fromTime + '&to=' + toTime;
+        documents.fetch();
+    }
+
+    $('#picker_upload_time_from').datetimepicker();
+    $('#picker_upload_time_to').datetimepicker();
+    $('#picker_doc_date_from').datetimepicker();
+    $('#picker_doc_date_to').datetimepicker();
 })();
 

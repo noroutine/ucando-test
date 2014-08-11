@@ -15,7 +15,8 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#all" data-toggle="tab">Show All</a></li>
         <li><a href="#byPerson" data-toggle="tab">Search By Person</a></li>
-        <li><a href="#byTime" data-toggle="tab">Search By Time</a></li>
+        <li><a href="#byDocumentDate" data-toggle="tab">Search By Document Date</a></li>
+        <li><a href="#byUploadTime" data-toggle="tab">Search By Upload Time</a></li>
     </ul>
     <div id="myTabContent" class="panel tab-content" style="height: 50px">
         <div class="tab-pane panel-body active" id="all">
@@ -27,19 +28,36 @@
                 <button type="button" id="search_by_name" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
-        <div class="tab-pane panel-body" id="byTime">
+
+        <div class="tab-pane panel-body" id="byDocumentDate">
             <form class="form-inline">
-                <div class='input-group date' id='picker_from'>
+                <div class='input-group date' id='picker_doc_date_from'>
                     <input type='text' class="input-sm form-control" placeholder="From..."/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <div class='input-group date' id='picker_to'>
+                <div class='input-group date' id='picker_doc_date_to'>
                     <input type='text' class="input-sm form-control" placeholder="To..."/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <button type="button" id="search_by_time" class="btn btn-primary btn-sm">Search</button>
+                <button type="button" id="search_by_doc_date" class="btn btn-primary btn-sm">Search</button>
+            </form>
+        </div>
+
+        <div class="tab-pane panel-body" id="byUploadTime">
+            <form class="form-inline">
+                <div class='input-group date' id='picker_upload_time_from'>
+                    <input type='text' class="input-sm form-control" placeholder="From..."/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class='input-group date' id='picker_upload_time_to'>
+                    <input type='text' class="input-sm form-control" placeholder="To..."/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <button type="button" id="search_by_upload_time" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
     </div>
