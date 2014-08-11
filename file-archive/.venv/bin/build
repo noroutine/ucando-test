@@ -1,0 +1,27 @@
+cd $VIRTUAL_ENV/..
+(
+    cd file-archive-commons
+    mvn clean install
+)
+
+(
+    cd file-archive-jaxrs
+    mvn clean install
+)
+
+(
+    cd file-archive-service
+    mvn clean package
+)
+
+(
+    cd file-archive-service
+    mvn clean package
+)
+
+rm -rf dist
+mkdir dist
+
+cp file-archive-service/target/file-archive-service.war dist
+cp file-archive-webapp/target/file-archive-webapp.war dist
+
