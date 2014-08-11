@@ -15,7 +15,7 @@ cd $VIRTUAL_ENV/..
 )
 
 (
-    cd file-archive-service
+    cd file-archive-webapp
     mvn clean package
 )
 
