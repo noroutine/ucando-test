@@ -23,14 +23,14 @@
             <p>All documents are shown</p>
         </div>
         <div class="tab-pane panel-body" id="byPerson">
-            <form class="form-inline">
+            <form class="form-inline" onsubmit="return false;">
                 <input id="name_filter" type="text" class="input-sm form-control" placeholder="Type name...">
                 <button type="button" id="search_by_name" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
 
         <div class="tab-pane panel-body" id="byDocumentDate">
-            <form class="form-inline">
+            <form class="form-inline" onsubmit="return false;">
                 <div class='input-group date' id='picker_doc_date_from'>
                     <input type='text' class="input-sm form-control" placeholder="From..."/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="tab-pane panel-body" id="byUploadTime">
-            <form class="form-inline">
+            <form class="form-inline" onsubmit="return false;">
                 <div class='input-group date' id='picker_upload_time_from'>
                     <input type='text' class="input-sm form-control" placeholder="From..."/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
