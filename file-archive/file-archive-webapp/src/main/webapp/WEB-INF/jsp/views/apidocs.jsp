@@ -13,11 +13,7 @@
 
 <h1>API</h1>
 <p>
-    Project consists of four modules: two libraries and two webapps:
-</p>
-
-<p>
-    File Service API is generated with free version of <a href="http://www.miredot.com">Miredot</a>. You can <a href="/file-archive-service-apidoc">browse it here</a>
+    File Service API documentation is generated with free version of <a href="http://www.miredot.com">Miredot</a>. You can <a href="/file-archive-service-apidoc">browse it here</a>
 </p>
 
 <section class="embed-responsive embed-responsive-16by9">
