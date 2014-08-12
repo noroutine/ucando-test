@@ -23,5 +23,6 @@ rm -rf dist
 mkdir dist
 
 cp file-archive-service/target/file-archive-service.war dist
+cp file-archive-service/target/file-archive-service-apidoc.war dist
 cp file-archive-webapp/target/file-archive-webapp.war dist
 

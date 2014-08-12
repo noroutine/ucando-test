@@ -67,6 +67,54 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.0.0.Beta1</version>
             </plugin>
+
+            <plugin>
+                <groupId>com.qmino</groupId>
+                <artifactId>miredot-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>restdoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <licence>UHJvamVjdHxtZS5ub3JvdXRpbmUudWNhbmRvLmZpbGUtYXJjaGl2ZS1zZXJ2aWNlfDIwMTktMDgtMTJ8ZmFsc2UjTUMwQ0ZRQ1BOTmVycnhnaUd1cVpWaXU4NzhnaE1UVGczd0lVSGNOb1NlS0dGUEFXcWhOcjlkdU03Q3hsVCtzPQ==</licence>
+                    <output>
+                        <html>
+                            <baseUrl>http://ams.noroutine.me/${artifactId}</baseUrl>
+                        </html>
+                    </output>
+                    <restModel>
+                        <titleNamingStrategies>
+                            <strategy>firstsentence</strategy>
+                        </titleNamingStrategies>
+                    </restModel>
+                </configuration>
+            </plugin>
+
+            <plugin>
+            <!-- NOTE: We don't need a groupId specification because the group is
+                 org.apache.maven.plugins ...which is assumed by default.
+             -->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>mirodot-apidoc.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

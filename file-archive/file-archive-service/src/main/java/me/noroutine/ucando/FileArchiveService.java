@@ -37,6 +37,11 @@ public class FileArchiveService {
     @Context
     private Request request;
 
+    /**
+     * Get metadata of stored documents.
+     *
+     * @return list of metadata entries
+     */
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @SuppressWarnings("unchecked")
@@ -45,6 +50,17 @@ public class FileArchiveService {
                 .getResultList();
     }
 
+    /**
+     * Create document entry.
+     *
+     * Handles submitted multipart/form-data form and creates document with given metadata and content
+     * Form parts required with their respective MIME type
+     *  metadata            application/json
+     *  content             application/octet-stream
+     *
+     * @param documentForm form with metadata and content
+     * @return true if success, false otherwise
+     */
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @Transactional
@@ -65,6 +81,16 @@ public class FileArchiveService {
         return true;
     }
 
+    /**
+     * Update existing document with new content.
+     *
+     * Form parts required with their respective MIME type
+     *  content             application/octet-stream
+     *
+     * @param uuid  id of the document
+     * @param input form with content
+     * @return true if update was successful, false otherwise
+     */
     @POST
     @Path("{uuid}/content")
     @Consumes({ MediaType.MULTIPART_FORM_DATA })
@@ -88,6 +114,12 @@ public class FileArchiveService {
         }
     }
 
+    /**
+     * Get document metadata.
+     *
+     * @param uuid  document id
+     * @return document metadata
+     */
     @GET
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
@@ -95,6 +127,12 @@ public class FileArchiveService {
         return entityManager.find(DocumentMetadata.class, uuid);
     }
 
+    /**
+     * Delete document.
+     *
+     * @param uuid  document id
+     * @return true if document was deleted, false if document was not found
+     */
     @DELETE
     @Path("{uuid}")
     @Produces({ MediaType.APPLICATION_JSON })
@@ -110,6 +148,13 @@ public class FileArchiveService {
         }
     }
 
+    /**
+     * Fetch the content of stored document.
+     *
+     * @param uuid  document id
+     * @return binary content streamed to client
+     * @throws SQLException
+     */
     @GET
     @Path("{uuid}/content")
     @Produces({ MediaType.APPLICATION_OCTET_STREAM })
@@ -122,6 +167,12 @@ public class FileArchiveService {
         }
     }
 
+    /**
+     * Search documents uploaded by given person.
+     *
+     * @param uploadedBy    username of person
+     * @return  list of found documents, that were uploaded by requested person
+     */
     @GET
     @Path("filter/uploadedBy")
     @Produces({ MediaType.APPLICATION_JSON })
@@ -132,6 +183,15 @@ public class FileArchiveService {
                 .getResultList();
     }
 
+    /**
+     * Search documents uploaded within given time window.
+     *
+     * Parameters are UNIX-style timestamps
+     *
+     * @param from  starting timestamp of time window
+     * @param to    end timestamp of time window
+     * @return      list of found documents, that were uploaded within given time frame
+     */
     @GET
     @Path("filter/uploadedTime")
     @Produces({ MediaType.APPLICATION_JSON })
@@ -143,6 +203,15 @@ public class FileArchiveService {
                 .getResultList();
     }
 
+    /**
+     * Search documents modified within given time window.
+     *
+     * Parameters are UNIX-style timestamps
+     *
+     * @param from  starting timestamp of time window
+     * @param to    end timestamp of time window
+     * @return      list of found documents, that have document date within given time frame
+     */
     @GET
     @Path("filter/documentDate")
     @Produces({ MediaType.APPLICATION_JSON })
