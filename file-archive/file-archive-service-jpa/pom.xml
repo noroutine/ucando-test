@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>me.noroutine.ucando</groupId>
-            <artifactId>file-archive-blob-storage-jpa</artifactId>
+            <artifactId>file-archive-blob-storage-s3</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

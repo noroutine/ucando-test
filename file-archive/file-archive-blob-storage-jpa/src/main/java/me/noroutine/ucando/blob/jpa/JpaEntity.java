@@ -18,7 +18,6 @@ import java.sql.SQLException;
  * Created by oleksii on 14/08/14.
  */
 
-@Default
 @ApplicationScoped
 public class JpaEntity implements StreamRepository {
 

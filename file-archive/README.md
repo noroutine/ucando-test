@@ -51,6 +51,10 @@ java:/comp/env/jdbc/UserDS           JDBC URL: jdbc:mysql://localhost:3306/userd
 8. file-archive-webapp.war shall be deployed
 9. To increase file upload size configure max_allowed_packet in my.cnf and add max-post-size to wildfly http listener
 
+10. Import my certificate to JVM truststore, make a backup of old one first!
+```
+keytool -import -alias noroutine -file star.noroutine.me.crt -keystore cacerts
+```
 
 ### Brief Description
 
