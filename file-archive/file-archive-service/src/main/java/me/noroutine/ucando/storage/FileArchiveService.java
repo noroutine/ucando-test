@@ -25,7 +25,8 @@ import java.util.*;
 @RequestScoped
 public class FileArchiveService {
 
-    @Inject @JpaBacked
+    @Inject
+    @JpaBacked
     private FileArchiveRepository fileArchiveRepository;
 
     /**

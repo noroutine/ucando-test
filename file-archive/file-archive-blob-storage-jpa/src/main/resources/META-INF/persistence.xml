@@ -1,0 +1,11 @@
+<persistence>
+    <persistence-unit name="BlobContentPU">
+        <description>This unit manages document metadata</description>
+        <jta-data-source>java:/comp/env/jdbc/FileArchiveDS</jta-data-source>
+        <!-- Disabled as I am configuring this in Wildfly configs -->
+        <!--<properties>-->
+        <!--<property name="hibernate.show_sql" value="true"/>-->
+        <!--<property name="hibernate.format_sql" value="true"/>-->
+        <!--</properties>-->
+    </persistence-unit>
+</persistence>

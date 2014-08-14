@@ -2,19 +2,17 @@ package me.noroutine.ucando.storage.jpa;
 
 import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.FileArchiveRepository;
+import me.noroutine.ucando.StreamRepository;
 import me.noroutine.ucando.storage.jpa.annotation.JpaBacked;
-import me.noroutine.ucando.storage.jpa.orm.DocumentContentMapping;
 import me.noroutine.ucando.storage.jpa.orm.DocumentMetadataMapping;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +26,10 @@ public class FileArchiveJpaRepository implements FileArchiveRepository {
     @PersistenceContext(unitName = "FileArchivePU")
     private EntityManager entityManager;
 
+    @Inject
+    @Default
+    private StreamRepository streamRepository;
+
     @Override
     @Transactional
     public boolean createDocument(DocumentMetadata documentMetadata) {
@@ -39,16 +41,11 @@ public class FileArchiveJpaRepository implements FileArchiveRepository {
     public boolean createDocument(DocumentMetadata documentMetadata, InputStream content) {
         DocumentMetadataMapping metadataMapping = DocumentMetadataMapping.wrap(documentMetadata);
 
-        Session session = entityManager.unwrap(org.hibernate.Session.class);
-        Blob contentBlob = Hibernate.getLobCreator(session).createBlob(content, -1);
-
         entityManager.persist(metadataMapping);
 
         entityManager.flush();
 
-        DocumentContentMapping documentContentMapping = entityManager.find(DocumentContentMapping.class, metadataMapping.getUuid());
-        documentContentMapping.setContent(contentBlob);
-        entityManager.merge(documentContentMapping);
+        streamRepository.write(documentMetadata.getUuid(), content);
 
         return true;
     }
@@ -98,6 +95,8 @@ public class FileArchiveJpaRepository implements FileArchiveRepository {
 
         if (forDeletion != null) {
             entityManager.remove(forDeletion);
+
+            streamRepository.delete(uuid);
             return true;
         } else {
             return false;
@@ -106,23 +105,13 @@ public class FileArchiveJpaRepository implements FileArchiveRepository {
 
     @Override
     public InputStream getContentAsStream(String uuid) {
-        try {
-            return entityManager.find(DocumentContentMapping.class, uuid).getContent().getBinaryStream();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return streamRepository.read(uuid);
     }
 
     @Override
     @Transactional
     public boolean setContent(String uuid, InputStream input) {
-        Session session = entityManager.unwrap(org.hibernate.Session.class);
-        Blob contentBlob = Hibernate.getLobCreator(session).createBlob(input, -1);
-        DocumentContentMapping documentContentMapping = entityManager.find(DocumentContentMapping.class, uuid);
-        documentContentMapping.setContent(contentBlob);
-        entityManager.merge(documentContentMapping);
-        return true;
+        return streamRepository.write(uuid, input);
     }
 
 }

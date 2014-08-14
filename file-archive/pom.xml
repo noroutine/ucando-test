@@ -210,5 +210,7 @@
         <module>file-archive-commons</module>
         <module>file-archive-jaxrs</module>
         <module>file-archive-service-jpa</module>
+        <module>file-archive-blob-storage-s3</module>
+        <module>file-archive-blob-storage-jpa</module>
     </modules>
 </project>

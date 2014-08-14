@@ -1,4 +1,4 @@
-package me.noroutine.ucando.storage.jpa.orm;
+package me.noroutine.ucando.blob.jpa.orm;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -7,7 +7,7 @@ import java.sql.Blob;
  * Created by oleksii on 10/08/14.
  */
 @Entity
-@Table(name = "documents")
+@Table(name = "blobs")
 public class DocumentContentMapping {
     private String uuid;
 

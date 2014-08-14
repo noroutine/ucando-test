@@ -4,8 +4,11 @@ create table documents (
   file_name varchar(255) not null,
   uploaded_by varchar(255) not null,
   document_date timestamp null,
-  upload_time timestamp null,
-  content longblob
+  upload_time timestamp null
 );
 
-show table status where name ='documents'\G
+drop table if exists blobs;
+create table blobs (
+  uuid varchar(255) not null,
+  content longblob
+);
