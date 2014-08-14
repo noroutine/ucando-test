@@ -5,6 +5,11 @@ cd $VIRTUAL_ENV/..
 )
 
 (
+    cd file-archive-service-jpa
+    mvn clean install
+)
+
+(
     cd file-archive-jaxrs
     mvn clean install
 )

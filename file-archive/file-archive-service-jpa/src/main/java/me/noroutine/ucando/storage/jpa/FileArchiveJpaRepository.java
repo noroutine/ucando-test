@@ -9,7 +9,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
