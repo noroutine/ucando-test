@@ -1,4 +1,4 @@
-package me.noroutine.ucando;
+package me.noroutine.ucando.storage;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

@@ -1,6 +1,7 @@
-package me.noroutine.ucando;
+package me.noroutine.ucando.storage;
 
-import me.noroutine.ucando.orm.DocumentMetadata;
+import me.noroutine.ucando.DocumentMetadata;
+import me.noroutine.ucando.storage.jpa.orm.DocumentMetadataMapping;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import javax.ws.rs.FormParam;
@@ -25,7 +26,7 @@ public class DocumentForm {
         return documentMetadata;
     }
 
-    public void setDocumentMetadata(DocumentMetadata documentMetadata) {
+    public void setDocumentMetadataMapping(DocumentMetadata documentMetadata) {
         this.documentMetadata = documentMetadata;
     }
 

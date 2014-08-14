@@ -1,4 +1,4 @@
-package me.noroutine.ucando.orm;
+package me.noroutine.ucando.storage.jpa.orm;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -8,7 +8,7 @@ import java.sql.Blob;
  */
 @Entity
 @Table(name = "documents")
-public class DocumentContent {
+public class DocumentContentMapping {
     private String uuid;
 
     private Blob content;
