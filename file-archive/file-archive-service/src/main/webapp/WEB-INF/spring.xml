@@ -13,12 +13,7 @@
                     <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository" />
                 </property>
                 <property name="streamRepository">
-                    <bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">
-                        <property name="endpoint" value="s3.noroutine.me" />
-                        <property name="accessKey" value="1IH4WADVJKF32RY7FNWW" />
-                        <property name="secretKey" value="123" />
-                        <property name="bucket" value="file-archive" />
-                    </bean>
+                    <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository" />
                 </property>
             </bean>
         </property>

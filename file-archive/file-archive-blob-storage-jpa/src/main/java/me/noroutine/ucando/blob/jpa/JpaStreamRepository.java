@@ -5,6 +5,7 @@ import me.noroutine.ucando.blob.jpa.orm.DocumentContentMapping;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
+import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
  * Created by oleksii on 14/08/14.
  */
 
+@Singleton
 public class JpaStreamRepository implements StreamRepository {
 
     @PersistenceContext(unitName = "BlobContentPU")
