@@ -9,18 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>file-archive-service-jpa</artifactId>
+    <artifactId>file-archive-metadata-storage-jpa</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>me.noroutine.ucando</groupId>
             <artifactId>file-archive-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>me.noroutine.ucando</groupId>
-            <artifactId>file-archive-blob-storage-s3</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

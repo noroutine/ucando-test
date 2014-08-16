@@ -3,13 +3,11 @@ package me.noroutine.ucando.storage;
 
 import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.FileArchiveRepository;
-import me.noroutine.ucando.storage.jpa.annotation.JpaBacked;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,8 +23,6 @@ import java.util.*;
 @RequestScoped
 public class FileArchiveService {
 
-    @Inject
-    @JpaBacked
     private FileArchiveRepository fileArchiveRepository;
 
     /**
@@ -172,5 +168,13 @@ public class FileArchiveService {
     @Produces({ MediaType.APPLICATION_JSON })
     public List<DocumentMetadata> searchByDocumentdate(@QueryParam("from") long from, @QueryParam("to") long to) {
         return fileArchiveRepository.searchByDocumentDate(from, to);
+    }
+
+    public FileArchiveRepository getFileArchiveRepository() {
+        return fileArchiveRepository;
+    }
+
+    public void setFileArchiveRepository(FileArchiveRepository fileArchiveRepository) {
+        this.fileArchiveRepository = fileArchiveRepository;
     }
 }

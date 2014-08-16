@@ -3,7 +3,7 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="BlobContentPU">
+    <persistence-unit name="FileArchivePU">
         <description>This unit manages document metadata</description>
         <jta-data-source>java:/comp/env/jdbc/FileArchiveDS</jta-data-source>
         <!-- Disabled as I am configuring this in Wildfly configs -->

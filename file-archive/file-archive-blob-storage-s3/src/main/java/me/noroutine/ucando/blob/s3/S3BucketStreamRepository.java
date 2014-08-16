@@ -9,24 +9,20 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import me.noroutine.ucando.StreamRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import java.io.InputStream;
 
 /**
  * Created by oleksii on 14/08/14.
  */
-@ApplicationScoped
-@Default
-public class S3Bucket implements StreamRepository {
+public class S3BucketStreamRepository implements StreamRepository {
 
-    private String endpoint = "xxx";
+    private String endpoint;
 
-    private String bucket = "xxx";
+    private String bucket;
 
-    private String accessKey = "xxx";
+    private String accessKey;
 
-    private String secretKey = "xxx";
+    private String secretKey;
 
     @Override
     public boolean write(String uuid, InputStream stream) {

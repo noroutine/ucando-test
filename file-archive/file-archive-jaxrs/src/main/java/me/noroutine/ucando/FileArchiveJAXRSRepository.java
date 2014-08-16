@@ -18,8 +18,6 @@ import java.util.List;
  */
 public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
-    private Client client;
-
     private String baseUrl;
 
     private String fileArchiveManagerUser;

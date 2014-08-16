@@ -1,7 +1,6 @@
 package me.noroutine.ucando.storage;
 
 import me.noroutine.ucando.DocumentMetadata;
-import me.noroutine.ucando.storage.jpa.orm.DocumentMetadataMapping;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import javax.ws.rs.FormParam;

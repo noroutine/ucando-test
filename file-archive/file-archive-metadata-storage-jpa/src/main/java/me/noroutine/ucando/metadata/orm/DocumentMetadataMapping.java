@@ -1,4 +1,4 @@
-package me.noroutine.ucando.storage.jpa.orm;
+package me.noroutine.ucando.metadata.orm;
 
 import me.noroutine.ucando.DocumentMetadata;
 
@@ -111,7 +111,7 @@ public class DocumentMetadataMapping {
         return unwrapped;
     }
 
-    public static List<me.noroutine.ucando.DocumentMetadata> unwrapList(List<DocumentMetadataMapping> metadataList) {
+    public static List<DocumentMetadata> unwrapList(List<DocumentMetadataMapping> metadataList) {
         if (metadataList == null) {
             return null;
         }

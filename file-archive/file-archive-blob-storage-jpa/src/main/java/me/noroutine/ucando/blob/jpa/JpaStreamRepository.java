@@ -5,8 +5,6 @@ import me.noroutine.ucando.blob.jpa.orm.DocumentContentMapping;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -18,8 +16,7 @@ import java.sql.SQLException;
  * Created by oleksii on 14/08/14.
  */
 
-@ApplicationScoped
-public class JpaEntity implements StreamRepository {
+public class JpaStreamRepository implements StreamRepository {
 
     @PersistenceContext(unitName = "BlobContentPU")
     private EntityManager entityManager;
