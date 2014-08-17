@@ -58,18 +58,23 @@ public class S3BucketStreamRepository implements StreamRepository {
                 return false;
             }
 
-            if (bytesRead + initialBytesRead < partSize) {
+            if (bytesRead == -1) {
+                // initial is all we have
+                bytesRead = initialBytesRead;
+            } else {
+                bytesRead = initialBytesRead + bytesRead;
+            }
+
+            if (bytesRead < partSize) {
                 // fuck that, still not enough data to fill the buffer, we go with regular upload request with regular upload
 
                 try {
-                    getS3().putObject(new PutObjectRequest(bucket, uuid, stream, new ObjectMetadata()));
+                    getS3().putObject(new PutObjectRequest(bucket, uuid, new ByteArrayInputStream(buffer, 0, bytesRead), new ObjectMetadata()));
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();
                     return false;
                 }
-            } else {
-                bytesRead = initialBytesRead + bytesRead;
             }
         } else {
             bytesRead = initialBytesRead;
