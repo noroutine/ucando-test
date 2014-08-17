@@ -1,3 +1,7 @@
+create keyspace file_archive_ks WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 2 };
+
+use file_archive_ks;
+
 create table documents (
   uuid uuid,
   file_name varchar,

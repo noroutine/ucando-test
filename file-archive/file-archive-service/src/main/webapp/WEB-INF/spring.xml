@@ -8,25 +8,66 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean class="me.noroutine.ucando.storage.FileArchiveService">
-        <property name="fileArchiveRepository" ref="cassandraAndS3" />
+        <property name="fileArchiveRepository" ref="jpaAndS3" />
     </bean>
 
-    <bean id="fullJpa" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
+    <!--<bean id="fullJpa" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
+        <!--<property name="metadataRepository">-->
+            <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>-->
+        <!--</property>-->
+        <!--<property name="streamRepository">-->
+            <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository"/>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; cassandra doesn't like ranged search &ndash;&gt;-->
+    <!--<bean id="cassandraAndS3" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
+        <!--<property name="metadataRepository">-->
+            <!--<bean class="me.noroutine.ucando.metadata.cassandra.CassandraMetadataRepository">-->
+                <!--<property name="cassandraOperations">-->
+                    <!--<cassandra:template />-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="streamRepository">-->
+            <!--<bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">-->
+                <!--<property name="endpoint" value="s3.noroutine.me" />-->
+                <!--<property name="bucket" value="file-archive" />-->
+                <!--<property name="accessKey" value="1IH4WADVJKF32RY7FNWW" />-->
+                <!--<property name="secretKey" value="123" />-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="cassandraAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
+        <!--<property name="metadataRepository">-->
+            <!--<bean class="me.noroutine.ucando.metadata.cassandra.CassandraMetadataRepository">-->
+                <!--<property name="cassandraOperations">-->
+                    <!--<cassandra:template />-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="streamRepository">-->
+            <!--<bean class="me.noroutine.ucando.blob.file.FileStreamRepository">-->
+                <!--<property name="storageLocation" value="/var/data/file-archive" />-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="jpaAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
+        <!--<property name="metadataRepository">-->
+            <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>-->
+        <!--</property>-->
+        <!--<property name="streamRepository">-->
+            <!--<bean class="me.noroutine.ucando.blob.file.FileStreamRepository">-->
+                <!--<property name="storageLocation" value="/var/data/file-archive"/>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="jpaAndS3" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
         <property name="metadataRepository">
             <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>
-        </property>
-        <property name="streamRepository">
-            <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository"/>
-        </property>
-    </bean>
-
-    <bean id="cassandraAndS3" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
-        <property name="metadataRepository">
-            <bean class="me.noroutine.ucando.metadata.cassandra.CassandraMetadataRepository">
-                <property name="cassandraOperations">
-                    <cassandra:template />
-                </property>
-            </bean>
         </property>
         <property name="streamRepository">
             <bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">
@@ -38,36 +79,10 @@
         </property>
     </bean>
 
-    <bean id="cassandraAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
-        <property name="metadataRepository">
-            <bean class="me.noroutine.ucando.metadata.cassandra.CassandraMetadataRepository">
-                <property name="cassandraOperations">
-                    <cassandra:template />
-                </property>
-            </bean>
-        </property>
-        <property name="streamRepository">
-            <bean class="me.noroutine.ucando.blob.file.FileStreamRepository">
-                <property name="storageLocation" value="/var/data/file-archive" />
-            </bean>
-        </property>
-    </bean>
 
-    <bean id="jpaAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
-        <property name="metadataRepository">
-            <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>
-        </property>
-        <property name="streamRepository">
-            <bean class="me.noroutine.ucando.blob.file.FileStreamRepository">
-                <property name="storageLocation" value="/var/data/file-archive"/>
-            </bean>
-        </property>
-    </bean>
-
-
-    <cassandra:cluster contact-points="localhost" />
-    <cassandra:session keyspace-name="file_archive_ks" />
-    <cassandra:mapping />
-    <cassandra:converter />
+    <!--<cassandra:cluster contact-points="localhost" />-->
+    <!--<cassandra:session keyspace-name="file_archive_ks" />-->
+    <!--<cassandra:mapping />-->
+    <!--<cassandra:converter />-->
 
 </beans>
