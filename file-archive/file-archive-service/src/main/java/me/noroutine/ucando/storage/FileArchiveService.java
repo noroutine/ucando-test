@@ -3,9 +3,10 @@ package me.noroutine.ucando.storage;
 
 import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.FileArchiveRepository;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
+import org.jboss.resteasy.util.GenericType;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
@@ -49,8 +50,18 @@ public class FileArchiveService {
      */
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public boolean createDocument(@MultipartForm DocumentForm documentForm) {
-        return fileArchiveRepository.createDocument(documentForm.getDocumentMetadata(), documentForm.getContent());
+    public boolean createDocument(MultipartFormDataInput documentForm) {
+
+        try {
+            DocumentMetadata metadata = documentForm.getFormDataPart("metadata", new GenericType<DocumentMetadata>() {});
+            // https://issues.jboss.org/browse/RESTEASY-545
+            InputStream contentStream = documentForm.getFormDataPart("content", new GenericType<InputStream>() {});
+            return fileArchiveRepository.createDocument(metadata, contentStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     /**
