@@ -1,12 +1,18 @@
 package me.noroutine.ucando.blob.s3;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.retry.PredefinedRetryPolicies;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import me.noroutine.ucando.StreamRepository;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by oleksii on 14/08/14.
@@ -23,16 +29,96 @@ public class S3BucketStreamRepository implements StreamRepository {
 
     @Override
     public boolean write(String uuid, InputStream stream) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, uuid, stream, objectMetadata);
+        final AmazonS3 s3 = getS3();
+        final int partSize = 10*1024*1024; // Set part size to 5 MB.
+
+        final byte[] buffer = new byte[partSize];
+        int bytesRead;
+
+        int initialBytesRead = 0;
         try {
-            getS3().putObject(putObjectRequest);
-        } catch (Exception e) {
+            initialBytesRead = stream.read(buffer, 0, partSize);
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
-        return true;
+        if (initialBytesRead == -1) {
+            return false;
+        }
+
+        // https://issues.jboss.org/browse/RESTEASY-545, ideally it would be a wrapper stream, but i'm too sleepy to do that
+        //
+        // we need to try eagerly read the stream, happens only on first chunk
+        // we therefore try ONLY ONCE to read more if stream didn't return EOF and initial read block is smaller than the buffer
+        if (initialBytesRead < partSize) {
+            try {
+                bytesRead = stream.read(buffer, initialBytesRead, partSize - initialBytesRead);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            if (bytesRead + initialBytesRead < partSize) {
+                // fuck that, still not enough data to fill the buffer, we go with regular upload request with regular upload
+
+                try {
+                    getS3().putObject(new PutObjectRequest(bucket, uuid, stream, new ObjectMetadata()));
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+                bytesRead = initialBytesRead + bytesRead;
+            }
+        } else {
+            bytesRead = initialBytesRead;
+        }
+
+        // start multi part upload
+
+        // Create a list of UploadPartResponse objects. You get one of these for
+        // each part upload.
+        List<PartETag> partETags = new ArrayList<>();
+
+        // Step 1: Initialize.
+        InitiateMultipartUploadRequest initRequest = new InitiateMultipartUploadRequest(bucket, uuid);
+        InitiateMultipartUploadResult initResponse =
+                s3.initiateMultipartUpload(initRequest);
+
+        try {
+            // Step 2: Upload parts.
+
+            int partNumber = 1;
+            do {
+                // we have first chunk in buffer already, we can just start this loop with upload
+
+                // Create request to upload a part.
+                UploadPartRequest uploadRequest = new UploadPartRequest()
+                        .withBucketName(bucket).withKey(uuid)
+                        .withUploadId(initResponse.getUploadId()).withPartNumber(partNumber)
+                        .withInputStream(new ByteArrayInputStream(buffer, 0, bytesRead))
+                        .withPartSize(bytesRead);
+
+                // Upload part and add response to our list.
+                partETags.add(s3.uploadPart(uploadRequest).getPartETag());
+
+                // get next part, it part can be less than buffer size
+                bytesRead = stream.read(buffer, 0, partSize);
+                partNumber++;
+            } while (bytesRead != -1);
+
+            // Step 3: Complete.
+            CompleteMultipartUploadRequest compRequest = new CompleteMultipartUploadRequest(bucket, uuid, initResponse.getUploadId(), partETags);
+
+            s3.completeMultipartUpload(compRequest);
+
+            return true;
+        } catch (Exception e) {
+            s3.abortMultipartUpload(new AbortMultipartUploadRequest(bucket, uuid, initResponse.getUploadId()));
+            return false;
+        }
     }
 
     @Override
@@ -57,7 +143,8 @@ public class S3BucketStreamRepository implements StreamRepository {
     }
 
     private AmazonS3 getS3() {
-        AmazonS3Client s3 = new com.amazonaws.services.s3.AmazonS3Client(new BasicAWSCredentials(this.accessKey, this.secretKey));
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        AmazonS3Client s3 = new AmazonS3Client(new BasicAWSCredentials(this.accessKey, this.secretKey), clientConfiguration);
         s3.setEndpoint(this.endpoint);
         return s3;
     }
@@ -94,57 +181,3 @@ public class S3BucketStreamRepository implements StreamRepository {
         this.secretKey = secretKey;
     }
 }
-
-
-//AmazonS3 s3Client = getS3();
-//int partSize = 10 * 1024 * 1024; // Set part size to 5 MB.
-//
-//byte[] buffer = new byte[partSize];
-//
-//// Create a list of UploadPartResponse objects. You get one of these for
-//// each part upload.
-//List<PartETag> partETags = new ArrayList<PartETag>();
-//
-//// Step 1: Initialize.
-//InitiateMultipartUploadRequest initRequest = new InitiateMultipartUploadRequest(bucket, uuid);
-//InitiateMultipartUploadResult initResponse =
-//        s3Client.initiateMultipartUpload(initRequest);
-//
-//try {
-//        // Step 2: Upload parts.
-//        // long filePosition = 0;
-//
-//        int bytesRead;
-//        int partNumber = 1;
-//        do {
-//        // Last part can be less than 5 MB. Adjust part size.
-//        // partSize = Math.min(partSize, (contentLength - filePosition));
-//        bytesRead = stream.read(buffer, 0, partSize);
-//        if (bytesRead > 0) {
-//        // Create request to upload a part.
-//        UploadPartRequest uploadRequest = new UploadPartRequest()
-//        .withBucketName(bucket).withKey(uuid)
-//        .withUploadId(initResponse.getUploadId()).withPartNumber(partNumber)
-//        .withInputStream(new ByteArrayInputStream(buffer, 0, bytesRead))
-//        //                        .withFileOffset(filePosition)
-//        //                        .withFile(file)
-//        .withPartSize(partSize);
-//
-//        // Upload part and add response to our list.
-//        partETags.add(s3Client.uploadPart(uploadRequest).getPartETag());
-//        // filePosition += partSize;
-//        partNumber++;
-//        }
-//
-//        } while (bytesRead != -1);
-//
-//        // Step 3: Complete.
-//        CompleteMultipartUploadRequest compRequest = new CompleteMultipartUploadRequest(bucket, uuid, initResponse.getUploadId(), partETags);
-//
-//        s3Client.completeMultipartUpload(compRequest);
-//
-//        return true;
-//        } catch (Exception e) {
-//        s3Client.abortMultipartUpload(new AbortMultipartUploadRequest(bucket, uuid, initResponse.getUploadId()));
-//        return false;
-//        }
