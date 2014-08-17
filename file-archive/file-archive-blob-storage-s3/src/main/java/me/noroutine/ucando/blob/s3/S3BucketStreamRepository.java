@@ -6,10 +6,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import me.noroutine.ucando.StreamRepository;
+import org.apache.commons.io.IOUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,10 +145,17 @@ public class S3BucketStreamRepository implements StreamRepository {
         }
     }
 
+    private static volatile AmazonS3 s3 = null;
+
     private AmazonS3 getS3() {
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        AmazonS3Client s3 = new AmazonS3Client(new BasicAWSCredentials(this.accessKey, this.secretKey), clientConfiguration);
-        s3.setEndpoint(this.endpoint);
+        if (s3 == null) {
+            synchronized (this.getClass()) {
+                ClientConfiguration clientConfiguration = new ClientConfiguration();
+                s3 = new AmazonS3Client(new BasicAWSCredentials(this.accessKey, this.secretKey), clientConfiguration);
+                s3.setEndpoint(this.endpoint);
+            }
+            return s3;
+        }
         return s3;
     }
 

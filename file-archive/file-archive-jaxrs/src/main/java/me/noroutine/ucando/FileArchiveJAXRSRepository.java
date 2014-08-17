@@ -9,6 +9,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -111,12 +113,23 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public InputStream getContentAsStream(String uuid) {
-        return ClientBuilder.newClient().target(baseUrl)
+        final Client client = ClientBuilder.newClient();
+        InputStream contentStream = client.target(baseUrl)
                 .path(uuid + "/content")
                 .request()
                 .accept(MediaType.APPLICATION_OCTET_STREAM_TYPE)
                 .get(new GenericType<InputStream>() {
                 });
+
+        return new FilterInputStream(contentStream) {
+            // keeps content input stream alive before client is GC'ed
+            private Client clientReference = client;
+
+            @Override
+            public int read() throws IOException {
+                return super.read();
+            }
+        };
     }
 
     public String getBaseUrl() {
