@@ -2,7 +2,6 @@ package me.noroutine.ucando.blob.s3;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.retry.PredefinedRetryPolicies;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
@@ -149,32 +148,16 @@ public class S3BucketStreamRepository implements StreamRepository {
         return s3;
     }
 
-    public String getEndpoint() {
-        return endpoint;
-    }
-
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
-    }
-
-    public String getBucket() {
-        return bucket;
     }
 
     public void setBucket(String bucket) {
         this.bucket = bucket;
     }
 
-    public String getAccessKey() {
-        return accessKey;
-    }
-
     public void setAccessKey(String accessKey) {
         this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
     }
 
     public void setSecretKey(String secretKey) {
