@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import me.noroutine.ucando.StreamRepository;
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
