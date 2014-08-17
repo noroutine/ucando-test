@@ -49,6 +49,12 @@
     <servlet>
         <servlet-name>Resteasy</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+
+        <multipart-config>
+            <max-file-size>10737418240</max-file-size>
+            <max-request-size>10737418240</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>

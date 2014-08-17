@@ -119,7 +119,6 @@
         <load-on-startup>1</load-on-startup>
 
         <multipart-config>
-            <location>/tmp</location>
             <max-file-size>10737418240</max-file-size>
             <max-request-size>10737418240</max-request-size>
             <file-size-threshold>1048576</file-size-threshold>
