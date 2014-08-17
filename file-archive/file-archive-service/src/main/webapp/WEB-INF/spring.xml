@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cassandra="http://www.springframework.org/schema/data/cassandra"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+        http://www.springframework.org/schema/data/cassandra http://www.springframework.org/schema/data/cassandra/spring-cassandra-1.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean class="me.noroutine.ucando.storage.FileArchiveService">
         <property name="fileArchiveRepository">
             <bean class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
                 <property name="metadataRepository">
-                    <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository" />
+                    <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>-->
+                    <bean class="me.noroutine.ucando.metadata.cassandra.CassandraMetadataRepository">
+                        <property name="cassandraOperations">
+                            <cassandra:template />
+                        </property>
+                    </bean>
                 </property>
                 <property name="streamRepository">
-                    <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository" />
+                    <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository"/>
                 </property>
             </bean>
         </property>
     </bean>
+
+    <cassandra:cluster contact-points="localhost" />
+    <cassandra:session keyspace-name="file_archive_ks" />
+    <cassandra:mapping />
+    <cassandra:converter />
 
 </beans>
