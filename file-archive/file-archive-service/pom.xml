@@ -145,6 +145,11 @@
             <artifactId>file-archive-blob-storage-s3</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>me.noroutine.ucando</groupId>
+            <artifactId>file-archive-blob-storage-file</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>

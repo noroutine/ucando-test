@@ -213,5 +213,6 @@
         <module>file-archive-blob-storage-jpa</module>
         <module>file-archive-metadata-storage-jpa</module>
         <module>file-archive-metadata-storage-cassandra</module>
+        <module>file-archive-blob-storage-file</module>
     </modules>
 </project>

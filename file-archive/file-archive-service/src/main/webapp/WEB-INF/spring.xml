@@ -20,11 +20,8 @@
                 </property>
                 <property name="streamRepository">
                     <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaStreamRepository"/>-->
-                    <bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">
-                        <property name="bucket" value="file-archive" />
-                        <property name="endpoint" value="s3.noroutine.me" />
-                        <property name="accessKey" value="1IH4WADVJKF32RY7FNWW" />
-                        <property name="secretKey" value="123" />
+                    <bean class="me.noroutine.ucando.blob.file.FileStreamRepository">
+                        <property name="storageLocation" value="/var/data/file-archive" />
                     </bean>
                 </property>
             </bean>
