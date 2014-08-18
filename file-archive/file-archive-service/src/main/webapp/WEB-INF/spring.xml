@@ -8,7 +8,10 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean class="me.noroutine.ucando.storage.FileArchiveService">
-        <property name="fileArchiveRepository" ref="jpaAndFiles" />
+        <property name="fileArchiveRepository" ref="jpaAndS3" />
+        <property name="objectMapper">
+            <bean class="com.fasterxml.jackson.databind.ObjectMapper" />
+        </property>
     </bean>
 
     <!--<bean id="fullJpa" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
@@ -54,30 +57,30 @@
         <!--</property>-->
     <!--</bean>-->
 
-    <bean id="jpaAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
-        <property name="metadataRepository">
-            <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>
-        </property>
-        <property name="streamRepository">
-            <bean class="me.noroutine.ucando.blob.file.FileStreamRepository">
-                <property name="storageLocation" value="/var/data/file-archive"/>
-            </bean>
-        </property>
-    </bean>
-
-    <!--<bean id="jpaAndS3" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
+    <!--<bean id="jpaAndFiles" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">-->
         <!--<property name="metadataRepository">-->
             <!--<jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>-->
         <!--</property>-->
         <!--<property name="streamRepository">-->
-            <!--<bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">-->
-                <!--<property name="endpoint" value="s3.noroutine.me" />-->
-                <!--<property name="bucket" value="file-archive" />-->
-                <!--<property name="accessKey" value="1IH4WADVJKF32RY7FNWW" />-->
-                <!--<property name="secretKey" value="123" />-->
+            <!--<bean class="me.noroutine.ucando.blob.file.FileStreamRepository">-->
+                <!--<property name="storageLocation" value="/var/data/file-archive"/>-->
             <!--</bean>-->
         <!--</property>-->
     <!--</bean>-->
+
+    <bean id="jpaAndS3" class="me.noroutine.ucando.storage.DefaultFileArchiveRepository">
+        <property name="metadataRepository">
+            <jee:jndi-lookup jndi-name="java:app/file-archive-service/JpaDocumentMetadataRepository"/>
+        </property>
+        <property name="streamRepository">
+            <bean class="me.noroutine.ucando.blob.s3.S3BucketStreamRepository">
+                <property name="endpoint" value="s3.noroutine.me" />
+                <property name="bucket" value="file-archive" />
+                <property name="accessKey" value="1IH4WADVJKF32RY7FNWW" />
+                <property name="secretKey" value="123" />
+            </bean>
+        </property>
+    </bean>
 
 
     <!--<cassandra:cluster contact-points="localhost" />-->

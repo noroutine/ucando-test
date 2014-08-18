@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,6 +97,31 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
+
+//        HttpClient client = HttpClientBuilder.create().build();
+//        HttpEntity multipart = null;
+//        try {
+//            multipart = MultipartEntityBuilder.create()
+//                    .addTextBody("metadata", objectMapper.writeValueAsString(documentMetadata), ContentType.APPLICATION_JSON)
+//                    .addBinaryBody("content", content)
+//                    .build();
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//
+//        HttpPost post = new HttpPost(baseUrl);
+//        post.setHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((fileArchiveManagerUser + ":" + fileArchiveManagerPassword).getBytes())));
+//        post.setEntity(multipart);
+//
+//        try {
+//            HttpResponse response = client.execute(post);
+//
+//            return objectMapper.readValue(response.getEntity().getContent(), Boolean.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
     }
 
     @Override
@@ -159,28 +183,17 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         };
     }
 
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-    }
-
-    public String getFileArchiveManagerUser() {
-        return fileArchiveManagerUser;
     }
 
     public void setFileArchiveManagerUser(String fileArchiveManagerUser) {
         this.fileArchiveManagerUser = fileArchiveManagerUser;
     }
 
-    public String getFileArchiveManagerPassword() {
-        return fileArchiveManagerPassword;
-    }
-
     public void setFileArchiveManagerPassword(String fileArchiveManagerPassword) {
         this.fileArchiveManagerPassword = fileArchiveManagerPassword;
     }
+
 }
 

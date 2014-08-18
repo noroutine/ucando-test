@@ -2,7 +2,8 @@ package me.noroutine.ucando.util;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import java.util.*;
+import java.util.Locale;
+import java.util.Properties;
 
 public class ReloadableMessageSource extends ReloadableResourceBundleMessageSource {
 

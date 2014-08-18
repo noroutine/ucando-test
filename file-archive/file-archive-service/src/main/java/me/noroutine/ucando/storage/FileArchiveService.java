@@ -3,18 +3,21 @@ package me.noroutine.ucando.storage;
 
 import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.FileArchiveRepository;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 import org.jboss.resteasy.util.GenericType;
 
 import javax.enterprise.context.RequestScoped;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -54,7 +57,6 @@ public class FileArchiveService {
 
         try {
             DocumentMetadata metadata = documentForm.getFormDataPart("metadata", new GenericType<DocumentMetadata>() {});
-            // https://issues.jboss.org/browse/RESTEASY-545
             InputStream contentStream = documentForm.getFormDataPart("content", new GenericType<InputStream>() {});
             return fileArchiveRepository.createDocument(metadata, contentStream);
         } catch (IOException e) {
@@ -121,12 +123,11 @@ public class FileArchiveService {
      *
      * @param uuid  document id
      * @return binary content streamed to client
-     * @throws SQLException
      */
     @GET
     @Path("{uuid}/content")
     @Produces({ MediaType.APPLICATION_OCTET_STREAM })
-    public Response getContent(@PathParam("uuid") String uuid) throws SQLException {
+    public Response getContent(@PathParam("uuid") String uuid) {
         InputStream stream = fileArchiveRepository.getContentAsStream(uuid);
         if (stream != null) {
             return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM_TYPE).build();
@@ -140,11 +141,10 @@ public class FileArchiveService {
      *
      * @param uuid  document id
      * @return binary content streamed to client
-     * @throws SQLException
      */
     @HEAD
     @Path("{uuid}/content")
-    public Response getContentLength(@PathParam("uuid") String uuid) throws SQLException {
+    public Response getContentLength(@PathParam("uuid") String uuid) {
         if (fileArchiveRepository.exists(uuid)) {
             long length = fileArchiveRepository.getContentLength(uuid);
 
@@ -202,10 +202,6 @@ public class FileArchiveService {
     @Produces({ MediaType.APPLICATION_JSON })
     public List<DocumentMetadata> searchByDocumentdate(@QueryParam("from") long from, @QueryParam("to") long to) {
         return fileArchiveRepository.searchByDocumentDate(from, to);
-    }
-
-    public FileArchiveRepository getFileArchiveRepository() {
-        return fileArchiveRepository;
     }
 
     public void setFileArchiveRepository(FileArchiveRepository fileArchiveRepository) {

@@ -161,12 +161,12 @@
         var formDate = new FormData();
         var file = e.target.files[0];
 
-        formDate.append("content", file, "content");
         formDate.append("metadata", new Blob([JSON.stringify({
             fileName: file.name,
             documentDate: file.lastModifiedDate,
             uploadTime: new Date().getTime()
         })], { type: 'application/json'}));
+        formDate.append("content", file, "content");
         xhr.send(formDate);
     });
 

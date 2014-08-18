@@ -77,9 +77,7 @@
         <property name="completeAutoload" value="true" />
     </bean>
 
-    <bean name="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
-
-    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
     <bean class="me.noroutine.ucando.FileArchiveJAXRSRepository">
         <property name="baseUrl" value="http://localhost:8080/file-archive-service/document" />
