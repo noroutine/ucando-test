@@ -12,4 +12,6 @@ public interface StreamRepository {
     InputStream read(String uuid);
 
     boolean delete(String uuid);
+
+    long getContentLength(String uuid);
 }

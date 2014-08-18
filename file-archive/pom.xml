@@ -210,7 +210,6 @@
         <module>file-archive-commons</module>
         <module>file-archive-jaxrs</module>
         <module>file-archive-blob-storage-s3</module>
-        <module>file-archive-blob-storage-jpa</module>
         <module>file-archive-metadata-storage-jpa</module>
         <module>file-archive-metadata-storage-cassandra</module>
         <module>file-archive-blob-storage-file</module>

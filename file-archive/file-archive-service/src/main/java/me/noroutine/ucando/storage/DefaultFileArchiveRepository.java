@@ -66,6 +66,16 @@ public class DefaultFileArchiveRepository implements FileArchiveRepository {
         return streamRepository.write(uuid, input);
     }
 
+    @Override
+    public boolean exists(String uuid) {
+        return metadataRepository.exists(uuid);
+    }
+
+    @Override
+    public long getContentLength(String uuid) {
+        return streamRepository.getContentLength(uuid);
+    }
+
     public StreamRepository getStreamRepository() {
         return streamRepository;
     }

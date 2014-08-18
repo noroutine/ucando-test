@@ -81,4 +81,9 @@ public class JpaDocumentMetadataRepository implements DocumentMetadataRepository
         return DocumentMetadataMapping.unwrapList(entityManager.createNamedQuery("documents.findAll")
                 .getResultList());
     }
+
+    @Override
+    public boolean exists(String uuid) {
+        return entityManager.find(DocumentMetadataMapping.class, uuid) != null;
+    }
 }

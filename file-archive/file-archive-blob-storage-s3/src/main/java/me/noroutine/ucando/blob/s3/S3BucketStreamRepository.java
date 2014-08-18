@@ -144,6 +144,11 @@ public class S3BucketStreamRepository implements StreamRepository {
         }
     }
 
+    @Override
+    public long getContentLength(String uuid) {
+        return getS3().getObjectMetadata(bucket, uuid).getContentLength();
+    }
+
     private static volatile AmazonS3 s3 = null;
 
     private AmazonS3 getS3() {

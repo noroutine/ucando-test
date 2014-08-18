@@ -28,4 +28,8 @@ public interface FileArchiveRepository {
     InputStream getContentAsStream(String uuid);
 
     boolean setContent(String uuid, InputStream input);
+
+    long getContentLength(String uuid);
+
+    boolean exists(String uuid);
 }

@@ -22,4 +22,5 @@ public interface DocumentMetadataRepository {
 
     List<DocumentMetadata> findAll();
 
+    boolean exists(String uuid);
 }

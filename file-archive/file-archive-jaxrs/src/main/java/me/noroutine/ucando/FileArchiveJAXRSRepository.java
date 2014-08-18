@@ -9,6 +9,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -109,6 +110,32 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
                 .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
                 .request()
                 .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
+    }
+
+    @Override
+    public long getContentLength(String uuid) {
+        Response response = ClientBuilder.newClient().target(baseUrl)
+                .path(uuid + "/content")
+                .request()
+                .head();
+
+        String length = response.getHeaderString("Content-Length");
+
+        if (length != null) {
+            return Long.valueOf(length);
+        }
+
+        return -1;
+    }
+
+    @Override
+    public boolean exists(String uuid) {
+        Response response = ClientBuilder.newClient().target(baseUrl)
+                .path(uuid + "/content")
+                .request()
+                .head();
+
+        return response.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL;
     }
 
     @Override

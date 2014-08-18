@@ -67,6 +67,11 @@ public class CassandraMetadataRepository implements DocumentMetadataRepository {
         return DocumentMetadataMapping.unwrapList(cassandraOperations.selectAll(DocumentMetadataMapping.class));
     }
 
+    @Override
+    public boolean exists(String uuid) {
+        return cassandraOperations.exists(DocumentMetadataMapping.class, UUID.fromString(uuid));
+    }
+
     public void setCassandraOperations(CassandraOperations cassandraOperations) {
         this.cassandraOperations = cassandraOperations;
     }

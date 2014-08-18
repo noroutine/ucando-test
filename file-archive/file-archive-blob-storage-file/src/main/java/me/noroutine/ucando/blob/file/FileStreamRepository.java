@@ -45,4 +45,9 @@ public class FileStreamRepository implements StreamRepository {
     public void setStorageLocation(String storageLocation) {
         this.storageLocation = storageLocation;
     }
+
+    @Override
+    public long getContentLength(String uuid) {
+        return new File(storageLocation, uuid).length();
+    }
 }

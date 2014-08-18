@@ -136,6 +136,29 @@ public class FileArchiveService {
     }
 
     /**
+     * Get content info, specifically length
+     *
+     * @param uuid  document id
+     * @return binary content streamed to client
+     * @throws SQLException
+     */
+    @HEAD
+    @Path("{uuid}/content")
+    public Response getContentLength(@PathParam("uuid") String uuid) throws SQLException {
+        if (fileArchiveRepository.exists(uuid)) {
+            long length = fileArchiveRepository.getContentLength(uuid);
+
+            if (length != -1) {
+                return Response.ok().header("Content-Length", Long.toString(length)).build();
+            } else {
+                return Response.ok().build();
+            }
+        } else {
+            return Response.status(404).build();
+        }
+    }
+
+    /**
      * Search documents uploaded by given person.
      *
      * @param uploadedBy    username of person
