@@ -4,6 +4,9 @@ import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.DocumentMetadataRepository;
 import me.noroutine.ucando.FileArchiveRepository;
 import me.noroutine.ucando.StreamRepository;
+
+import javax.activation.FileTypeMap;
+import javax.activation.MimetypesFileTypeMap;
 import java.io.InputStream;
 import java.util.List;
 
@@ -11,6 +14,8 @@ import java.util.List;
  * Created by oleksii on 14/08/14.
  */
 public class DefaultFileArchiveRepository implements FileArchiveRepository {
+
+    private FileTypeMap typeMap = new MimetypesFileTypeMap();
 
     private StreamRepository streamRepository;
 
@@ -28,27 +33,27 @@ public class DefaultFileArchiveRepository implements FileArchiveRepository {
 
     @Override
     public List<DocumentMetadata> searchByUploader(String uploader) {
-        return metadataRepository.searchByUploader(uploader);
+        return withTypeAndSize(metadataRepository.searchByUploader(uploader));
     }
 
     @Override
     public List<DocumentMetadata> searchByUploadedTime(long from, long to) {
-        return metadataRepository.searchByUploadTime(from, to);
+        return withTypeAndSize(metadataRepository.searchByUploadTime(from, to));
     }
 
     @Override
     public List<DocumentMetadata> searchByDocumentDate(long from, long to) {
-        return metadataRepository.searchByDocumentDate(from, to);
+        return withTypeAndSize(metadataRepository.searchByDocumentDate(from, to));
     }
 
     @Override
     public DocumentMetadata getById(String uuid) {
-        return metadataRepository.getById(uuid);
+        return withTypeAndSize(metadataRepository.getById(uuid));
     }
 
     @Override
     public List<DocumentMetadata> findAll() {
-        return metadataRepository.findAll();
+        return withTypeAndSize(metadataRepository.findAll());
     }
 
     @Override
@@ -91,4 +96,24 @@ public class DefaultFileArchiveRepository implements FileArchiveRepository {
     public void setMetadataRepository(DocumentMetadataRepository metadataRepository) {
         this.metadataRepository = metadataRepository;
     }
+
+    private DocumentMetadata withTypeAndSize(DocumentMetadata documentMetadata) {
+        if (documentMetadata.getContentType() == null) {
+            documentMetadata.setContentType(typeMap.getContentType(documentMetadata.getFileName()));
+        }
+
+        if (documentMetadata.getContentLength() == 0 ) {
+            documentMetadata.setContentLength(streamRepository.getContentLength(documentMetadata.getUuid()));
+        }
+
+        return documentMetadata;
+    }
+
+    private List<DocumentMetadata> withTypeAndSize(List<DocumentMetadata> list) {
+        for (DocumentMetadata metadata: list) {
+            withTypeAndSize(metadata);
+        }
+        return list;
+    }
+
 }

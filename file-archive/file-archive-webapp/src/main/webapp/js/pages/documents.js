@@ -63,6 +63,20 @@
             cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
         },
         {
+            name: "contentLength",
+            label: "Size",
+            editable: false,
+            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
+            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+        },
+        {
+            name: "contentType",
+            label: "Type",
+            editable: false,
+            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
+            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+        },
+        {
             name: "uploadTime",
             label: "Uploaded",
             editable: false,

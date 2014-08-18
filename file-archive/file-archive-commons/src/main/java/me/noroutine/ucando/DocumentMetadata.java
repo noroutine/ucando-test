@@ -22,6 +22,10 @@ public class DocumentMetadata {
 
     private Date uploadTime;
 
+    private String contentType;
+
+    private long contentLength;
+
     public String getUuid() {
         return uuid;
     }
@@ -62,4 +66,19 @@ public class DocumentMetadata {
         this.uploadTime = uploadTime;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public long getContentLength() {
+        return contentLength;
+    }
+
+    public void setContentLength(long contentLength) {
+        this.contentLength = contentLength;
+    }
 }

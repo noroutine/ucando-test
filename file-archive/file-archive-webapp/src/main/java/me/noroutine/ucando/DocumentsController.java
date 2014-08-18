@@ -73,16 +73,10 @@ public class DocumentsController {
     @RequestMapping(value = "/{uuid}/download/{fileName}")
     public void download(@PathVariable String uuid, HttpServletResponse response) {
         try {
-            FileTypeMap typeMap = new MimetypesFileTypeMap();
-
             DocumentMetadata documentMetadata = fileArchiveRepository.getById(uuid);
             if (documentMetadata != null) {
-                long length =  fileArchiveRepository.getContentLength(uuid);
-                if (length != -1) {
-                    response.setHeader("Content-Length", Long.toString(length));
-                }
-                response.setHeader("Content-Type", typeMap.getContentType(documentMetadata.getFileName()));
-                //                response.setHeader("Content-Disposition", "attachment; filename=\"" + documentMetadata.getFileName() + "\"");
+                response.setHeader("Content-Length", Long.toString(documentMetadata.getContentLength()));
+                response.setHeader("Content-Type", documentMetadata.getContentType());
                 response.setStatus(200);
                 IOUtils.copy(fileArchiveRepository.getContentAsStream(uuid), response.getOutputStream());
             }
