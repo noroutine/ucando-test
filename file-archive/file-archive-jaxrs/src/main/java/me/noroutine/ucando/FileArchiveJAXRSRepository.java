@@ -1,5 +1,14 @@
 package me.noroutine.ucando;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
 
@@ -13,6 +22,7 @@ import javax.ws.rs.core.Response;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -25,6 +35,8 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
     private String fileArchiveManagerUser;
 
     private String fileArchiveManagerPassword;
+
+    private ObjectMapper objectMapper;
 
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata) {
@@ -89,39 +101,39 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata, InputStream content) {
-        MultipartFormDataOutput form = new MultipartFormDataOutput();
-        form.addFormData("metadata", documentMetadata, MediaType.APPLICATION_JSON_TYPE);
-        form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+//        MultipartFormDataOutput form = new MultipartFormDataOutput();
+//        form.addFormData("metadata", documentMetadata, MediaType.APPLICATION_JSON_TYPE);
+//        form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+//
+//        return ClientBuilder.newClient().target(baseUrl)
+//                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
+//                .request()
+//                .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
 
-        return ClientBuilder.newClient().target(baseUrl)
-                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
-                .request()
-                .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpEntity multipart = null;
+        try {
+            multipart = MultipartEntityBuilder.create()
+                    .addTextBody("metadata", objectMapper.writeValueAsString(documentMetadata), ContentType.APPLICATION_JSON)
+                    .addBinaryBody("content", content)
+                    .build();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-//        HttpClient client = HttpClientBuilder.create().build();
-//        HttpEntity multipart = null;
-//        try {
-//            multipart = MultipartEntityBuilder.create()
-//                    .addTextBody("metadata", objectMapper.writeValueAsString(documentMetadata), ContentType.APPLICATION_JSON)
-//                    .addBinaryBody("content", content)
-//                    .build();
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//
-//        HttpPost post = new HttpPost(baseUrl);
-//        post.setHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((fileArchiveManagerUser + ":" + fileArchiveManagerPassword).getBytes())));
-//        post.setEntity(multipart);
-//
-//        try {
-//            HttpResponse response = client.execute(post);
-//
-//            return objectMapper.readValue(response.getEntity().getContent(), Boolean.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
+        HttpPost post = new HttpPost(baseUrl);
+        post.setHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((fileArchiveManagerUser + ":" + fileArchiveManagerPassword).getBytes())));
+        post.setEntity(multipart);
+
+        try {
+            HttpResponse response = client.execute(post);
+
+            return objectMapper.readValue(response.getEntity().getContent(), Boolean.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -195,5 +207,8 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         this.fileArchiveManagerPassword = fileArchiveManagerPassword;
     }
 
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 }
 

@@ -83,6 +83,7 @@
         <property name="baseUrl" value="http://localhost:8080/file-archive-service/document" />
         <property name="fileArchiveManagerUser" value="admin" />
         <property name="fileArchiveManagerPassword" value="LetMe1n!" />
+        <property name="objectMapper" ref="objectMapper" />
     </bean>
 
 </beans>
