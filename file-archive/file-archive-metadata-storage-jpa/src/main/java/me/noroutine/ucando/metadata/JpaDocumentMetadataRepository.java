@@ -37,8 +37,13 @@ public class JpaDocumentMetadataRepository implements DocumentMetadataRepository
         DocumentMetadataMapping forDeletion = entityManager.find(DocumentMetadataMapping.class, uuid);
 
         if (forDeletion != null) {
-            entityManager.remove(forDeletion);
-            return true;
+            if (forDeletion.isDeleted()) {
+                return false;
+            } else {
+                forDeletion.setDeleted(true);
+                entityManager.merge(forDeletion);
+                return true;
+            }
         } else {
             return false;
         }
@@ -84,6 +89,7 @@ public class JpaDocumentMetadataRepository implements DocumentMetadataRepository
 
     @Override
     public boolean exists(String uuid) {
-        return entityManager.find(DocumentMetadataMapping.class, uuid) != null;
+        DocumentMetadataMapping maybeExists = entityManager.find(DocumentMetadataMapping.class, uuid);
+        return maybeExists != null && ! maybeExists.isDeleted();
     }
 }

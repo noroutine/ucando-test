@@ -7,8 +7,6 @@ create table documents (
   upload_time timestamp null
 );
 
-drop table if exists blobs;
-create table blobs (
-  uuid varchar(255) not null,
-  content longblob
-);
+-- patches
+alter table documents add column deleted boolean not null default false;
+

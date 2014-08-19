@@ -58,7 +58,7 @@ public class DefaultFileArchiveRepository implements FileArchiveRepository {
 
     @Override
     public boolean delete(String uuid) {
-        return metadataRepository.delete(uuid) && streamRepository.delete(uuid);
+        return metadataRepository.delete(uuid);
     }
 
     @Override

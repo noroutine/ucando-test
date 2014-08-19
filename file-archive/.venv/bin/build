@@ -1,17 +1,8 @@
 #!/bin/bash
 
-cd $VIRTUAL_ENV/..
+reinstall
 
-MODULES=$(cat <<ML
-file-archive-commons
-file-archive-blob-storage-jpa
-file-archive-blob-storage-s3
-file-archive-blob-storage-file
-file-archive-metadata-storage-jpa
-file-archive-metadata-storage-cassandra
-file-archive-jaxrs
-ML
-)
+cd $VIRTUAL_ENV/..
 
 COMPONENTS=$(cat <<CL
 file-archive-service
@@ -22,18 +13,16 @@ CL
 rm -rf dist
 mkdir dist
 
-for module in $MODULES; do
+for module in $COMPONENTS; do
 (
-    cd $module
-    mvn clean install
-)
-done
-
-for component in $COMPONENT; do
-(
-    cd $component
-    mvn clean package
-    cp target/$component.war ../dist/
+    if [ -d $module ]; then
+        echo "Building $module"
+        cd $module
+        mvn -q clean package
+        cp target/$module.war ../dist/
+    else
+        echo "No such module: $module"
+    fi
 )
 done
 

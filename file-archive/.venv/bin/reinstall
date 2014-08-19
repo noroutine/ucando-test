@@ -1,10 +1,13 @@
 #!/bin/bash
 
+set -e
+
+trap exit SIGINT
+
 cd $VIRTUAL_ENV/..
 
 MODULES=$(cat <<ML
 file-archive-commons
-file-archive-blob-storage-jpa
 file-archive-blob-storage-s3
 file-archive-blob-storage-file
 file-archive-metadata-storage-jpa
@@ -13,11 +16,14 @@ file-archive-jaxrs
 ML
 )
 
-echo $MODULES
-
 for module in $MODULES; do
 (
-    cd $module
-    mvn clean install
+    if [ -d $module ]; then
+        echo "Installing $module"
+        cd $module
+        mvn -q clean install
+    else
+        echo "No such module: $module"
+    fi
 )
 done

@@ -102,15 +102,6 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
 
     @Override
     public boolean createDocument(DocumentMetadata documentMetadata, InputStream content) {
-//        MultipartFormDataOutput form = new MultipartFormDataOutput();
-//        form.addFormData("metadata", documentMetadata, MediaType.APPLICATION_JSON_TYPE);
-//        form.addFormData("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
-//
-//        return ClientBuilder.newClient().target(baseUrl)
-//                .register(new BasicAuthentication(fileArchiveManagerUser, fileArchiveManagerPassword))
-//                .request()
-//                .post(Entity.entity(new GenericEntity<MultipartFormDataOutput>(form) {}, MediaType.MULTIPART_FORM_DATA_TYPE), Boolean.class);
-
         HttpClient client = HttpClientBuilder.create().build();
         HttpEntity multipart = null;
         try {
@@ -131,7 +122,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
             HttpResponse response = client.execute(post);
 
             return objectMapper.readValue(response.getEntity().getContent(), Boolean.class);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

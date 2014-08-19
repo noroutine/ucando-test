@@ -9,29 +9,37 @@
 <%@ taglib prefix="util" tagdir="/WEB-INF/tags/util" %>
 <%@ taglib prefix="tb" uri="/WEB-INF/taglib/taglib.tld" %>
 
-<util:js value="/resources/js/pages/home.js" />
+<util:js value="/resources/js/pages/home.js"/>
 
 <h1>File Archive</h1>
+
 <p>
-Project consists of four modules: two libraries and two webapps:
+    Project consists of four modules: two libraries and two webapps:
 </p>
+
 <p>
-WebApp is communicating to File Service through Java SDK. File Service is using JPA for persistence and both are using JAX-RS for REST
-File content is stored as BLOBs into the database, which doesn't work well with MySQL - expect files above 500Mb to make everything slow and failing.
-Webapp and service were designed to handle files up to 1Gb but MySQL is a bad choice here. Storing content on the disk or AWS would raise the limit.
+    Web application is communicating to File Service through Java SDK which works on top of JAX-RS. File Service is
+    using JPA for persistence of metadata and Amazon S3 for content storage.
+    File content is stored as BLOBs on S3 or disk, depending on the deployment configuration.
 </p>
+
 <p>
-WebApp and File Service use another database for authenticating users.
+    Web application and service were designed to handle files up to 10Gb.
 </p>
+
 <p>
-There are four users predefined with roles in braces: admin, joe, jack and jill.
-Password is <pre>LetMe1n!</pre>
+    WebApp and File Service use both separate database for authenticating users.
 </p>
+
 <p>
-    For Service and SDK I used JAX-RS
+    There are four users predefined with roles in braces: admin, joe, jack and jill.
+    Password is <code>LetMe1n!</code>
 </p>
-    For WebApp I used my other project Tobacco, which uses Backbone and Twitter Bootstrap for frontend, Spring, Spring Security and Tiles on backend.
+
+<p>
+    For WebApp I used my other project Tobacco, which uses Backbone and Twitter Bootstrap for frontend, Spring, Spring
+    Security and Tiles on backend.
 </p>
 
 <h3>This is how it should look like</h3>
-<img src="<spring:url value="/resources/images/file-archive-webapp-shot.png" />" width="80%" />
+<img src="<spring:url value="/resources/images/file-archive-webapp-shot.png" />" width="80%"/>

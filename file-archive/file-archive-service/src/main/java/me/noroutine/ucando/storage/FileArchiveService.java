@@ -3,17 +3,12 @@ package me.noroutine.ucando.storage;
 
 import me.noroutine.ucando.DocumentMetadata;
 import me.noroutine.ucando.FileArchiveRepository;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.jboss.resteasy.util.GenericType;
 
 import javax.enterprise.context.RequestScoped;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -59,7 +54,7 @@ public class FileArchiveService {
             DocumentMetadata metadata = documentForm.getFormDataPart("metadata", new GenericType<DocumentMetadata>() {});
             InputStream contentStream = documentForm.getFormDataPart("content", new GenericType<InputStream>() {});
             return fileArchiveRepository.createDocument(metadata, contentStream);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

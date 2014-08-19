@@ -5,6 +5,7 @@ import me.noroutine.ucando.DocumentMetadata;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -13,10 +14,10 @@ import java.util.List;
 @Entity
 @Table(name = "documents")
 @NamedQueries({
-        @NamedQuery(name = "documents.findAll", query = "select dm from DocumentMetadataMapping dm"),
-        @NamedQuery(name = "documents.findByUploader", query = "select dm from DocumentMetadataMapping dm where dm.uploadedBy = :uploadedBy"),
-        @NamedQuery(name = "documents.findByUploadTimeRange", query = "select dm from DocumentMetadataMapping dm where dm.uploadTime between :from_time and :to_time"),
-        @NamedQuery(name = "documents.findBydocumentDateRange", query = "select dm from DocumentMetadataMapping dm where dm.documentDate between :from_time and :to_time")
+        @NamedQuery(name = "documents.findAll", query = "select dm from DocumentMetadataMapping dm where dm.deleted = false"),
+        @NamedQuery(name = "documents.findByUploader", query = "select dm from DocumentMetadataMapping dm where dm.uploadedBy = :uploadedBy and dm.deleted = false"),
+        @NamedQuery(name = "documents.findByUploadTimeRange", query = "select dm from DocumentMetadataMapping dm where dm.uploadTime between :from_time and :to_time and dm.deleted = false"),
+        @NamedQuery(name = "documents.findBydocumentDateRange", query = "select dm from DocumentMetadataMapping dm where dm.documentDate between :from_time and :to_time and dm.deleted = false")
 })
 public class DocumentMetadataMapping {
 
@@ -29,6 +30,8 @@ public class DocumentMetadataMapping {
     private Date documentDate;
 
     private Date uploadTime;
+
+    private boolean deleted;
 
     @Id
     @Column(name = "uuid")
@@ -82,6 +85,16 @@ public class DocumentMetadataMapping {
         this.uploadTime = uploadTime;
     }
 
+    @Basic
+    @Column(name = "deleted")
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public static DocumentMetadataMapping wrap(DocumentMetadata metadata) {
         if (metadata == null) {
             return null;
@@ -102,6 +115,10 @@ public class DocumentMetadataMapping {
             return null;
         }
 
+        if (metadataMapping.isDeleted()) {
+            return null;
+        }
+
         DocumentMetadata unwrapped = new DocumentMetadata();
         unwrapped.setUuid(metadataMapping.getUuid());
         unwrapped.setFileName(metadataMapping.getFileName());
@@ -116,11 +133,14 @@ public class DocumentMetadataMapping {
             return null;
         }
 
-        List<me.noroutine.ucando.DocumentMetadata> unwrapped = new ArrayList<>(metadataList.size());
+        List<me.noroutine.ucando.DocumentMetadata> unwrappedList = new ArrayList<>(metadataList.size());
         for (DocumentMetadataMapping metadata: metadataList) {
-            unwrapped.add(DocumentMetadataMapping.unwrap(metadata));
+            DocumentMetadata unwrapped = DocumentMetadataMapping.unwrap(metadata);
+            if (unwrapped != null) {
+                unwrappedList.add(unwrapped);
+            }
         }
 
-        return unwrapped;
+        return unwrappedList;
     }
 }
