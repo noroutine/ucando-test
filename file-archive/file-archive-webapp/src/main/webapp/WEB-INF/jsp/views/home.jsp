@@ -32,11 +32,6 @@
 </p>
 
 <p>
-    There are four users predefined with roles in braces: admin, joe, jack and jill.
-    Password is <code>LetMe1n!</code>
-</p>
-
-<p>
     For WebApp I used my other project Tobacco, which uses Backbone and Twitter Bootstrap for frontend, Spring, Spring
     Security and Tiles on backend.
 </p>
