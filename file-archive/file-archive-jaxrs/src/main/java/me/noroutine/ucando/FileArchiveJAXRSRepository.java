@@ -22,8 +22,9 @@ import javax.ws.rs.core.Response;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
 import java.util.List;
+
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by oleksii on 07/08/14.
@@ -123,7 +124,7 @@ public class FileArchiveJAXRSRepository implements FileArchiveRepository {
         }
 
         HttpPost post = new HttpPost(baseUrl);
-        post.setHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((fileArchiveManagerUser + ":" + fileArchiveManagerPassword).getBytes())));
+        post.setHeader("Authorization", "Basic " + Base64.encodeBase64String((fileArchiveManagerUser + ":" + fileArchiveManagerPassword).getBytes()));
         post.setEntity(multipart);
 
         try {
